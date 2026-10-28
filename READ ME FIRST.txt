@@ -1,0 +1,26 @@
+IELTS 7+ MOCK LIBRARY
+Md Salim Shadman, Head of IELTS and Language Teaching
+
+HOW TO START
+1. Keep this folder together: index.html and the "mocks" folder must stay side by side.
+2. Double-click index.html. Use Google Chrome or Microsoft Edge.
+3. Enter the Student ID, choose a mock, finish the ready check, then press Start.
+
+WHAT HAPPENS
+- The Student ID is entered once. Listening, Reading and Writing all use it automatically.
+- Security mode (fullscreen lock) is OFF by default. Switch it on in the ready check, or on the
+  mock's start screen, when the computer is connected to the internet.
+- Answers and scores are hidden until the whole mock is finished. Then the student sees the bands
+  and a full answer review (their answer next to the correct answer).
+- Spellcheck, red underlines and word suggestions are switched off in every section.
+- After the Writing section, press "Back to Mock Library". The bands are saved under Progress,
+  and the answer review can be reopened there with "Review answers".
+- Writing answers download as a .txt file named with the Student ID. Hand it to the teacher for marking.
+
+FOR TEACHERS
+- Results are saved in this browser on this computer. Open Progress > Export CSV to collect them.
+  Tick "Show all students on this computer" to export everyone.
+- To use more computers, copy the whole folder to each one, or upload the folder to any static web host.
+- Everything works offline. Nothing is sent over the internet.
+
+IELTS 7+ · +880 1335-254382 · www.ielts7plus.co.uk · info@ielts7plus.co.uk

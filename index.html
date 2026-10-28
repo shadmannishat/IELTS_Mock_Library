@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS 7+ Mock Library</title>
+<style>
+  :root{
+    --red:#dc2626; --red-dark:#b91c1c; --red-soft:#fef2f2; --red-line:#fecaca;
+    --ink:#111827; --ink-2:#374151; --muted:#6b7280; --line:#e5e7eb; --bg:#f6f7f9; --card:#fff;
+    --green:#15803d; --green-soft:#ecfdf5; --amber:#b45309; --amber-soft:#fffbeb;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.45}
+  button{font:inherit}
+  a{color:inherit}
+  .wrap{width:min(1180px,100%);margin:0 auto;padding:0 20px}
+
+  /* top bar */
+  .top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+  .top .wrap{display:flex;align-items:center;gap:18px;height:64px}
+  .brand{display:flex;align-items:baseline;gap:4px;font-weight:800;font-size:24px;letter-spacing:-.5px;white-space:nowrap}
+  .brand b{color:var(--red)}
+  .brand small{font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.02em;margin-left:8px}
+  .tabs{display:flex;gap:4px;margin-left:auto}
+  .tab{border:none;background:none;padding:9px 14px;border-radius:9999px;font-weight:700;font-size:14px;color:var(--ink-2);cursor:pointer}
+  .tab:hover{background:var(--bg)}
+  .tab[aria-selected="true"]{background:var(--red-soft);color:var(--red-dark)}
+  .who{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);white-space:nowrap}
+  .who b{color:var(--ink)}
+  .who button{border:1px solid var(--line);background:#fff;border-radius:9999px;padding:5px 11px;font-size:12px;font-weight:700;cursor:pointer;color:var(--ink-2)}
+
+  /* hero */
+  .hero{padding:34px 0 8px}
+  .kicker{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red)}
+  h1{margin:6px 0 8px;font-size:40px;line-height:1.08;letter-spacing:-.6px}
+  .lead{margin:0;color:var(--muted);font-size:16px;max-width:680px}
+  .heroGrid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:20px;align-items:start;margin-top:22px}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 24px rgba(17,24,39,.05)}
+  .cand{padding:22px 24px}
+  .cand h2{margin:0 0 4px;font-size:18px}
+  .cand p{margin:0 0 14px;color:var(--muted);font-size:14px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .field{display:flex;flex-direction:column;gap:6px}
+  .field label{font-size:13px;font-weight:700}
+  .field input{font:inherit;font-size:16px;padding:11px 13px;border:2px solid #d1d5db;border-radius:10px;outline:none;width:100%;background:#fff}
+  .field input:focus{border-color:var(--red)}
+  .err{color:var(--red);font-size:13px;min-height:18px;margin-top:6px}
+  .btn{font-weight:700;font-size:15px;border:none;border-radius:9999px;padding:12px 24px;cursor:pointer;background:var(--red);color:#fff;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+  .btn:hover{background:var(--red-dark)}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .btn.ghost{background:#fff;color:var(--red);border:2px solid var(--red);padding:10px 20px}
+  .btn.ghost:hover{background:var(--red-soft)}
+  .btn.quiet{background:#fff;color:var(--ink-2);border:1px solid var(--line);padding:10px 18px}
+  .btn.quiet:hover{background:var(--bg)}
+  .btn.sm{font-size:13px;padding:8px 14px}
+
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:18px}
+  .stat{border:1px solid var(--line);border-radius:12px;padding:14px}
+  .stat .l{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .stat .v{font-size:30px;font-weight:800;margin-top:4px;font-variant-numeric:tabular-nums}
+  .stat .s{font-size:12px;color:var(--muted)}
+  .nextUp{margin:0 18px 18px;padding:14px 16px;border-radius:12px;background:var(--red-soft);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .nextUp .t{font-size:14px;color:#7f1d1d}
+  .nextUp .t b{display:block;font-size:16px;color:var(--ink)}
+
+  /* toolbar + grid */
+  .toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:34px 0 14px}
+  .toolbar h2{margin:0 auto 0 0;font-size:22px}
+  .seg{display:inline-flex;background:#fff;border:1px solid var(--line);border-radius:9999px;padding:3px}
+  .seg button{border:none;background:none;border-radius:9999px;padding:7px 14px;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer}
+  .seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:14px;padding-bottom:40px}
+  .mock{position:relative;text-align:left;background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 16px 14px;cursor:pointer;transition:border-color .15s, box-shadow .15s, transform .15s;display:flex;flex-direction:column;gap:10px;min-height:150px}
+  .mock:hover{border-color:var(--red-line);box-shadow:0 10px 24px rgba(220,38,38,.10);transform:translateY(-1px)}
+  .mock:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+  .mock .num{display:flex;align-items:baseline;justify-content:space-between}
+  .mock .num span{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .mock .num strong{font-size:34px;font-weight:800;letter-spacing:-1px;line-height:1}
+  .mock .meta{font-size:12.5px;color:var(--muted)}
+  .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:9999px;align-self:flex-start}
+  .pill.new{background:var(--bg);color:var(--ink-2)}
+  .pill.done{background:var(--green-soft);color:var(--green)}
+  .bands{display:flex;gap:6px;margin-top:auto}
+  .bands div{flex:1;border-radius:8px;background:var(--bg);padding:6px 8px}
+  .bands small{display:block;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .bands b{font-size:18px;font-variant-numeric:tabular-nums}
+  .mock.done{border-color:#bbf7d0}
+  .empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:40px 0}
+
+  /* views */
+  .view{display:none}
+  .view.show{display:block}
+
+  /* progress */
+  .pGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:22px 0}
+  .panel{padding:20px 22px;margin-bottom:18px}
+  .panel h3{margin:0 0 4px;font-size:17px}
+  .panel .sub{margin:0 0 14px;color:var(--muted);font-size:13.5px}
+  .chart{width:100%;height:auto;display:block}
+  .legend{display:flex;gap:16px;font-size:13px;color:var(--ink-2);margin-top:8px}
+  .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{padding:10px 10px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+  th{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  td.num{font-variant-numeric:tabular-nums}
+  .tblWrap{overflow-x:auto}
+  .actionsRow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+  /* help */
+  .help{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:22px 0 40px}
+  .help .panel p,.help .panel li{font-size:14.5px;color:var(--ink-2)}
+  .help ol,.help ul{padding-left:20px;margin:8px 0 0}
+  .help li{margin-bottom:6px}
+
+  /* modal */
+  .scrim{position:fixed;inset:0;background:rgba(17,24,39,.55);display:none;align-items:center;justify-content:center;padding:16px;z-index:50}
+  .scrim.show{display:flex}
+  .modal{background:#fff;border-radius:18px;width:min(640px,100%);max-height:calc(100vh - 32px);overflow:auto;box-shadow:0 30px 60px rgba(0,0,0,.25)}
+  .modal header{padding:22px 24px 0}
+  .modal header h3{margin:4px 0 2px;font-size:28px;letter-spacing:-.4px}
+  .modal header p{margin:0;color:var(--muted);font-size:14px}
+  .modal .body{padding:18px 24px}
+  .modal footer{padding:0 24px 22px;display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+  .secs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+  .secs div{border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+  .secs small{display:block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .secs b{font-size:15px}
+  .secs span{display:block;font-size:12.5px;color:var(--muted)}
+  .check{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;cursor:pointer;font-size:14px}
+  .check input{width:18px;height:18px;accent-color:var(--red);margin-top:1px;flex:none}
+  .check.ok{border-color:#bbf7d0;background:var(--green-soft)}
+  .sound{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:4px 0 12px}
+  .sound .msg{font-size:13px;color:var(--muted)}
+  .warn{background:var(--amber-soft);color:var(--amber);border-radius:10px;padding:10px 12px;font-size:13px;margin-bottom:12px;display:none}
+  .warn.show{display:block}
+  .secRow{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:12px;cursor:pointer}
+  .secRow input{position:absolute;opacity:0;width:1px;height:1px}
+  .sw{flex:none;width:42px;height:24px;border-radius:9999px;background:#d1d5db;position:relative;transition:.15s;margin-top:1px}
+  .sw:after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:.15s}
+  .secRow input:checked + .sw{background:var(--red)}
+  .secRow input:checked + .sw:after{left:21px}
+  .secRow input:focus-visible + .sw{outline:3px solid var(--red);outline-offset:2px}
+  .secRow .t{font-size:14px}
+  .secRow .t b{display:block}
+  .secRow .t span{color:var(--muted);font-size:13px}
+  .rvTbl{max-height:60vh;overflow:auto;border:1px solid var(--line);border-radius:12px}
+  .rvTbl td.q{font-weight:700}
+  .rvTbl tr.no td.ua{color:var(--red-dark)}
+  .rvTbl td.m{text-align:center;font-weight:700}
+  .rvTbl tr.ok td.m{color:var(--green)}
+  .rvTbl tr.no td.m{color:var(--red-dark)}
+  .rvTbl td{white-space:normal}
+  .linkBtn{border:none;background:none;color:var(--red);font-weight:700;cursor:pointer;padding:0;font-size:13px}
+  .history{font-size:13px;color:var(--ink-2);background:var(--bg);border-radius:10px;padding:10px 12px;margin-bottom:12px}
+
+  .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:12px;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:60;max-width:calc(100% - 32px)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  footer.site{border-top:1px solid var(--line);background:#fff;padding:22px 0;margin-top:10px}
+  footer.site .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+  footer.site .sig{font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+
+  @media (max-width:900px){
+    .heroGrid{grid-template-columns:1fr}
+    .pGrid{grid-template-columns:repeat(2,1fr)}
+    .help{grid-template-columns:1fr}
+  }
+  @media (max-width:640px){
+    .wrap{padding:0 16px}
+    h1{font-size:30px}
+    .brand small,.who span{display:none}
+    .top .wrap{gap:8px;flex-wrap:wrap;height:auto;padding-top:10px;padding-bottom:8px}
+    .tabs{order:3;width:100%;margin-left:0}
+    .who{margin-left:auto}
+    .tab{padding:7px 12px;white-space:nowrap}
+    .row,.secs{grid-template-columns:1fr}
+    .stats{grid-template-columns:repeat(3,1fr);padding:14px;gap:8px}
+    .stat .v{font-size:24px}
+    .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">IELTS<b>7+</b><small>Mock Library</small></div>
+    <nav class="tabs" role="tablist">
+      <button class="tab" role="tab" data-view="mocks" aria-selected="true">Mocks</button>
+      <button class="tab" role="tab" data-view="progress" aria-selected="false">Progress</button>
+      <button class="tab" role="tab" data-view="help" aria-selected="false">How it works</button>
+    </nav>
+    <div class="who" id="who" hidden><span>Candidate</span><b id="whoId"></b><button id="switchBtn" type="button">Switch</button></div>
+  </div>
+</header>
+
+<main>
+  <!-- MOCKS VIEW -->
+  <section class="view show" id="view-mocks">
+    <div class="wrap">
+      <div class="hero">
+        <div class="kicker">Academic · Computer-delivered practice</div>
+        <h1>28 full IELTS mock tests</h1>
+        <p class="lead">Listening, Reading and Writing in one sitting, just like test day. Enter your Student ID once, choose a mock and go. Listening and Reading are marked when the whole mock is finished; your Writing is saved for your teacher.</p>
+
+        <div class="heroGrid">
+          <div class="card cand" id="candCard">
+            <h2 id="candTitle">Who's taking the test?</h2>
+            <p id="candSub">Your ID is filled in for you in every mock, and your scores are tracked on this computer.</p>
+            <div class="row">
+              <div class="field">
+                <label for="sidIn">Student ID</label>
+                <input id="sidIn" inputmode="numeric" autocomplete="off" placeholder="e.g. 24017">
+              </div>
+              <div class="field">
+                <label for="nameIn">Name <span style="font-weight:400;color:var(--muted)">(optional)</span></label>
+                <input id="nameIn" autocomplete="off" placeholder="e.g. Nusrat Jahan">
+              </div>
+            </div>
+            <div class="err" id="sidErr"></div>
+            <button class="btn" id="saveCand" type="button">Continue</button>
+          </div>
+
+          <div class="card">
+            <div class="stats">
+              <div class="stat"><div class="l">Completed</div><div class="v" id="stDone">0</div><div class="s">of 28 mocks</div></div>
+              <div class="stat"><div class="l">Avg Listening</div><div class="v" id="stL">–</div><div class="s" id="stLs">no attempts yet</div></div>
+              <div class="stat"><div class="l">Avg Reading</div><div class="v" id="stR">–</div><div class="s" id="stRs">no attempts yet</div></div>
+            </div>
+            <div class="nextUp">
+              <div class="t"><span id="nextLbl">Suggested next</span><b id="nextName">Full Mock 1</b></div>
+              <button class="btn sm" id="nextBtn" type="button">Open</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <h2>Choose a mock</h2>
+        <div class="seg" role="group" aria-label="Filter mocks">
+          <button type="button" data-f="all" aria-pressed="true">All</button>
+          <button type="button" data-f="new" aria-pressed="false">Not taken</button>
+          <button type="button" data-f="done" aria-pressed="false">Completed</button>
+        </div>
+        <button class="btn quiet sm" id="randomBtn" type="button">&#x1F3B2; Surprise me</button>
+      </div>
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <!-- PROGRESS VIEW -->
+  <section class="view" id="view-progress">
+    <div class="wrap">
+      <div class="hero">
+        <div class="kicker" id="progKicker">Progress</div>
+        <h1 id="progTitle">Your results</h1>
+        <p class="lead">Every finished mock on this computer is saved here. Bands are estimates from Listening and Reading raw scores; Writing is marked by your teacher.</p>
+      </div>
+      <div class="pGrid">
+        <div class="card stat"><div class="l">Mocks completed</div><div class="v" id="pDone">0</div><div class="s" id="pDoneS">attempts: 0</div></div>
+        <div class="card stat"><div class="l">Best Listening</div><div class="v" id="pBL">–</div><div class="s" id="pBLs">&nbsp;</div></div>
+        <div class="card stat"><div class="l">Best Reading</div><div class="v" id="pBR">–</div><div class="s" id="pBRs">&nbsp;</div></div>
+        <div class="card stat"><div class="l">Recent trend</div><div class="v" id="pTrend">–</div><div class="s" id="pTrendS">last 3 vs first 3</div></div>
+      </div>
+      <div class="card panel">
+        <h3>Band trend</h3>
+        <p class="sub">Listening and Reading band for each attempt, oldest to newest.</p>
+        <div id="chartBox"></div>
+        <div class="legend"><span><i style="background:#dc2626"></i>Listening</span><span><i style="background:repeating-linear-gradient(90deg,#111827 0 4px,transparent 4px 6px)"></i>Reading (dashed)</span></div>
+      </div>
+      <div class="card panel">
+        <div class="actionsRow" style="justify-content:space-between;margin-bottom:10px">
+          <div><h3>Attempt history</h3><p class="sub" style="margin:0" id="histSub">This student</p></div>
+          <div class="actionsRow">
+            <label class="check" style="margin:0;padding:7px 10px"><input type="checkbox" id="allStudents"> Show all students on this computer</label>
+            <button class="btn quiet sm" id="csvBtn" type="button">Export CSV</button>
+            <button class="btn quiet sm" id="clearBtn" type="button">Clear…</button>
+          </div>
+        </div>
+        <div class="tblWrap"><table id="histTbl"></table></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HELP VIEW -->
+  <section class="view" id="view-help">
+    <div class="wrap">
+      <div class="hero">
+        <div class="kicker">How it works</div>
+        <h1>Test day, in your browser</h1>
+        <p class="lead">Each mock follows the real computer-delivered IELTS Academic order and timing. Everything runs offline from this folder; nothing is uploaded anywhere.</p>
+      </div>
+      <div class="help">
+        <div class="card panel">
+          <h3>Taking a mock</h3>
+          <ol>
+            <li>Enter your Student ID (numbers only) and, if you like, your name.</li>
+            <li>Pick a mock and run the quick ready-check: sound test, headphones, quiet room.</li>
+            <li>The mock opens with your ID filled in. Press <b>Begin Full Mock</b>, then each section's <b>Start Test</b> button.</li>
+            <li>When you finish Writing, you see your bands and the answer review. Press <b>Back to Mock Library</b> to save them here; you can reopen the review from <b>Progress</b>.</li>
+          </ol>
+        </div>
+        <div class="card panel">
+          <h3>Rules inside each section</h3>
+          <ul>
+            <li>Security mode is <b>off</b> by default, so the test won't lock to fullscreen. Turn it on in the ready check (or on the mock's start screen) when the computer is online: then leaving fullscreen or switching tabs is a violation, and the third one submits the section.</li>
+            <li>Answers and scores stay hidden until the whole mock is finished. Then you see your bands and a full answer review.</li>
+            <li>You enter your Student ID once. Every section, including Writing, uses it automatically.</li>
+            <li>Spellcheck, red underlines and word suggestions are switched off, as in the real test.</li>
+            <li>The Listening recording plays once only. You can't pause or rewind it.</li>
+            <li>You can't go back to a section after submitting it.</li>
+            <li>Your Writing answers download as a .txt file named with your Student ID. Hand it to your teacher.</li>
+          </ul>
+        </div>
+        <div class="card panel">
+          <h3>Timing</h3>
+          <ul>
+            <li><b>Listening:</b> about 30 minutes (4 parts, 40 questions), including 2 minutes to check answers.</li>
+            <li><b>Reading:</b> 60 minutes (3 passages, 40 questions).</li>
+            <li><b>Writing:</b> 60 minutes (Task 1: 150+ words, Task 2: 250+ words).</li>
+            <li>Allow about <b>2 hours 40 minutes</b> in total, with no break between sections.</li>
+          </ul>
+        </div>
+        <div class="card panel">
+          <h3>For teachers</h3>
+          <ul>
+            <li>Keep this whole folder together: <b>index.html</b> and the <b>mocks</b> folder. Open index.html in Google Chrome or Microsoft Edge.</li>
+            <li>Results are stored in this browser on this computer. Use <b>Progress → Export CSV</b> to collect them; tick "Show all students" to export everyone.</li>
+            <li>To run it on several computers, copy the folder to each one, or upload the folder to any static web host and share the link.</li>
+            <li>Each mock can also be opened on its own from the mocks folder.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="sig">IELTS 7+ · Md Salim Shadman · Head of IELTS and Language Teaching</div>
+    <div>+880 1335-254382 · www.ielts7plus.co.uk · info@ielts7plus.co.uk</div>
+  </div>
+</footer>
+
+<!-- Ready-check modal -->
+<div class="scrim" id="scrim" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="modal">
+    <header>
+      <div class="kicker">Ready check</div>
+      <h3 id="mTitle">Full Mock 1</h3>
+      <p id="mWho"></p>
+    </header>
+    <div class="body">
+      <div class="secs">
+        <div><small>Section 1</small><b>Listening</b><span id="mLmin">30 min · 40 Qs</span></div>
+        <div><small>Section 2</small><b>Reading</b><span>60 min · 40 Qs</span></div>
+        <div><small>Section 3</small><b>Writing</b><span>60 min · 2 tasks</span></div>
+      </div>
+      <div class="history" id="mHist" hidden></div>
+      <div class="warn" id="browserWarn">For the smoothest experience (fullscreen and audio), use Google Chrome or Microsoft Edge.</div>
+      <div class="sound">
+        <button class="btn quiet sm" id="soundBtn" type="button">&#x1F50A; Play sound check</button>
+        <span class="msg" id="soundMsg">You should hear a tone in your left ear, then your right.</span>
+      </div>
+      <label class="check"><input type="checkbox" class="rc"> I can hear the sound check clearly in both ears.</label>
+      <label class="check"><input type="checkbox" class="rc"> I'm in a quiet place with about 2 hours 40 minutes free.</label>
+      <label class="check"><input type="checkbox" class="rc"> <span id="rcRule">I understand the Listening audio plays once, and I'll see my answers only after the whole mock.</span></label>
+      <label class="secRow"><input type="checkbox" id="secureIn"><span class="sw" aria-hidden="true"></span><span class="t"><b>Security mode</b><span id="secTxt">Off. The test will not lock to fullscreen. Turn it on if this computer is connected to the internet.</span></span></label>
+    </div>
+    <footer>
+      <button class="btn quiet" id="mCancel" type="button">Cancel</button>
+      <button class="btn" id="mStart" type="button" disabled>Start Full Mock 1 &rarr;</button>
+    </footer>
+  </div>
+</div>
+
+<!-- Answer review modal -->
+<div class="scrim" id="rvScrim" role="dialog" aria-modal="true" aria-labelledby="rvTitle">
+  <div class="modal" style="width:min(760px,100%)">
+    <header><div class="kicker">Answer review</div><h3 id="rvTitle" style="font-size:24px">Full Mock</h3><p id="rvSub"></p></header>
+    <div class="body">
+      <div class="seg" id="rvTabs" role="group" style="margin-bottom:12px"><button type="button" data-s="listening" aria-pressed="true">Listening</button><button type="button" data-s="reading" aria-pressed="false">Reading</button></div>
+      <div class="rvTbl" id="rvBody"></div>
+    </div>
+    <footer><button class="btn quiet" id="rvClose" type="button">Close</button></footer>
+  </div>
+</div>
+
+<!-- Confirm modal -->
+<div class="scrim" id="confirmScrim" role="dialog" aria-modal="true">
+  <div class="modal" style="width:min(460px,100%)">
+    <header><h3 style="font-size:22px" id="cTitle">Clear results?</h3><p id="cText"></p></header>
+    <footer style="padding-top:18px">
+      <button class="btn quiet" id="cNo" type="button">Cancel</button>
+      <button class="btn" id="cYes" type="button">Clear</button>
+    </footer>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var MOCKS = [{"n": 1, "lmin": 30, "file": "mocks/mock-01/IELTS_Full_Mock_1.html"}, {"n": 2, "lmin": 31, "file": "mocks/mock-02/IELTS_Full_Mock_2.html"}, {"n": 3, "lmin": 30, "file": "mocks/mock-03/IELTS_Full_Mock_3.html"}, {"n": 4, "lmin": 31, "file": "mocks/mock-04/IELTS_Full_Mock_4.html"}, {"n": 5, "lmin": 29, "file": "mocks/mock-05/IELTS_Full_Mock_5.html"}, {"n": 6, "lmin": 30, "file": "mocks/mock-06/IELTS_Full_Mock_6.html"}, {"n": 7, "lmin": 29, "file": "mocks/mock-07/IELTS_Full_Mock_7.html"}, {"n": 8, "lmin": 33, "file": "mocks/mock-08/IELTS_Full_Mock_8.html"}, {"n": 9, "lmin": 32, "file": "mocks/mock-09/IELTS_Full_Mock_9.html"}, {"n": 10, "lmin": 32, "file": "mocks/mock-10/IELTS_Full_Mock_10.html"}, {"n": 11, "lmin": 27, "file": "mocks/mock-11/IELTS_Full_Mock_11.html"}, {"n": 12, "lmin": 33, "file": "mocks/mock-12/IELTS_Full_Mock_12.html"}, {"n": 13, "lmin": 32, "file": "mocks/mock-13/IELTS_Full_Mock_13.html"}, {"n": 14, "lmin": 28, "file": "mocks/mock-14/IELTS_Full_Mock_14.html"}, {"n": 15, "lmin": 26, "file": "mocks/mock-15/IELTS_Full_Mock_15.html"}, {"n": 16, "lmin": 29, "file": "mocks/mock-16/IELTS_Full_Mock_16.html"}, {"n": 17, "lmin": 30, "file": "mocks/mock-17/IELTS_Full_Mock_17.html"}, {"n": 18, "lmin": 27, "file": "mocks/mock-18/IELTS_Full_Mock_18.html"}, {"n": 19, "lmin": 25, "file": "mocks/mock-19/IELTS_Full_Mock_19.html"}, {"n": 20, "lmin": 28, "file": "mocks/mock-20/IELTS_Full_Mock_20.html"}, {"n": 21, "lmin": 27, "file": "mocks/mock-21/IELTS_Full_Mock_21.html"}, {"n": 22, "lmin": 28, "file": "mocks/mock-22/IELTS_Full_Mock_22.html"}, {"n": 23, "lmin": 30, "file": "mocks/mock-23/IELTS_Full_Mock_23.html"}, {"n": 24, "lmin": 30, "file": "mocks/mock-24/IELTS_Full_Mock_24.html"}, {"n": 25, "lmin": 33, "file": "mocks/mock-25/IELTS_Full_Mock_25.html"}, {"n": 26, "lmin": 29, "file": "mocks/mock-26/IELTS_Full_Mock_26.html"}, {"n": 27, "lmin": 31, "file": "mocks/mock-27/IELTS_Full_Mock_27.html"}, {"n": 28, "lmin": 29, "file": "mocks/mock-28/IELTS_Full_Mock_28.html"}];
+  var KEY = 'ielts7plus.attempts', CAND = 'ielts7plus.candidate';
+  var mem = {};
+  function get(k, d){ try { var v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch(e){ return k in mem ? mem[k] : d; } }
+  function set(k, v){ mem[k] = v; try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+  function $(id){ return document.getElementById(id); }
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function fmtBand(b){ return b == null || isNaN(b) ? '–' : Number(b).toFixed(1); }
+  function avg(a){ return a.length ? a.reduce(function(s,x){ return s + x; }, 0) / a.length : null; }
+  function roundBand(x){ return x == null ? null : Math.round(x * 2) / 2; }
+  function toast(t){ var el = $('toast'); el.textContent = t; el.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(function(){ el.classList.remove('show'); }, 3800); }
+
+  var params; try { params = new URLSearchParams(location.search); } catch(e){ params = { get: function(){ return null; } }; }
+  var cand = get(CAND, null);
+  var ps = (params.get('sid') || '').replace(/\D/g, '');
+  if (ps) cand = { sid: ps, name: (params.get('name') || (cand && cand.sid === ps ? cand.name : '') || '').slice(0, 60) };
+
+  /* result coming back from a mock */
+  var doneRaw = params.get('done');
+  if (doneRaw) {
+    try {
+      var r = JSON.parse(doneRaw);
+      if (r && r.mock >= 1 && r.mock <= MOCKS.length) {
+        var all = get(KEY, []);
+        if (!all.some(function(x){ return x.mock === r.mock && x.end === r.end; })) { all.push(r); set(KEY, all); }
+        if (!cand && r.sid) cand = { sid: String(r.sid), name: r.name || '' };
+        setTimeout(function(){ toast('Full Mock ' + r.mock + ' saved · Listening ' + fmtBand(r.lb) + ' · Reading ' + fmtBand(r.rb)); }, 300);
+      }
+    } catch(e){}
+  }
+  if (cand) set(CAND, cand);
+  try { if (location.search) history.replaceState(null, '', location.pathname); } catch(e){}
+
+  /* ---------- candidate ---------- */
+  function attempts(sidOnly){
+    var a = get(KEY, []).filter(function(x){ return x && x.mock; });
+    if (sidOnly !== false && cand) a = a.filter(function(x){ return String(x.sid) === String(cand.sid); });
+    return a.sort(function(x, y){ return (x.end || 0) - (y.end || 0); });
+  }
+  function renderCand(){
+    if (cand) {
+      $('candTitle').textContent = 'Welcome' + (cand.name ? ', ' + cand.name.split(' ')[0] : '') + '.';
+      $('candSub').textContent = 'Student ID ' + cand.sid + ' is filled in for you in every mock. Not you? Change it below.';
+      $('sidIn').value = cand.sid; $('nameIn').value = cand.name || '';
+      $('saveCand').textContent = 'Update';
+      $('who').hidden = false; $('whoId').textContent = 'ID ' + cand.sid;
+    } else {
+      $('candTitle').textContent = "Who's taking the test?";
+      $('candSub').textContent = 'Your ID is filled in for you in every mock, and your scores are tracked on this computer.';
+      $('saveCand').textContent = 'Continue';
+      $('who').hidden = true;
+    }
+  }
+  function saveCand(){
+    var v = $('sidIn').value.trim().replace(/\D/g, '');
+    if (!v) { $('sidErr').textContent = 'Please enter your Student ID (numbers only).'; $('sidIn').focus(); return false; }
+    $('sidIn').value = v; $('sidErr').textContent = '';
+    cand = { sid: v, name: $('nameIn').value.trim().slice(0, 60) };
+    set(CAND, cand); renderAll();
+    toast('Ready, Student ID ' + v + '. Choose a mock below.');
+    return true;
+  }
+  $('saveCand').addEventListener('click', saveCand);
+  ['sidIn','nameIn'].forEach(function(id){ $(id).addEventListener('keydown', function(e){ if (e.key === 'Enter') saveCand(); }); });
+  $('switchBtn').addEventListener('click', function(){ cand = null; set(CAND, null); $('sidIn').value = ''; $('nameIn').value = ''; renderAll(); showView('mocks'); $('sidIn').focus(); window.scrollTo({top:0,behavior:'smooth'}); });
+
+  /* ---------- grid ---------- */
+  var filter = 'all';
+  function byMock(){
+    var m = {};
+    attempts().forEach(function(a){ (m[a.mock] = m[a.mock] || []).push(a); });
+    return m;
+  }
+  function renderGrid(){
+    var bm = byMock(), g = $('grid'), html = '';
+    MOCKS.forEach(function(k){
+      var at = bm[k.n] || [], last = at[at.length - 1];
+      if (filter === 'new' && at.length) return;
+      if (filter === 'done' && !at.length) return;
+      html += '<button class="mock' + (at.length ? ' done' : '') + '" data-n="' + k.n + '" type="button">' +
+        '<div class="num"><span>Full Mock</span><strong>' + k.n + '</strong></div>' +
+        '<div class="meta">L ' + k.lmin + ' min · R 60 min · W 60 min</div>' +
+        (at.length
+          ? '<span class="pill done">&#10003; Completed' + (at.length > 1 ? ' ×' + at.length : '') + '</span>' +
+            '<div class="bands"><div><small>Listening</small><b>' + fmtBand(last.lb) + '</b></div><div><small>Reading</small><b>' + fmtBand(last.rb) + '</b></div></div>'
+          : '<span class="pill new">Not taken yet</span>') +
+        '</button>';
+    });
+    g.innerHTML = html || '<div class="empty">' + (filter === 'done' ? 'No completed mocks yet. Your finished mocks will appear here.' : 'You have completed every mock. Impressive!') + '</div>';
+  }
+  $('grid').addEventListener('click', function(e){ var b = e.target.closest('.mock'); if (b) openMock(+b.dataset.n); });
+  document.querySelectorAll('.seg button').forEach(function(b){
+    b.addEventListener('click', function(){
+      filter = b.dataset.f;
+      document.querySelectorAll('.seg button').forEach(function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      renderGrid();
+    });
+  });
+  function untaken(){ var bm = byMock(); return MOCKS.filter(function(k){ return !bm[k.n]; }); }
+  $('randomBtn').addEventListener('click', function(){
+    var pool = untaken(); if (!pool.length) pool = MOCKS;
+    openMock(pool[Math.floor(Math.random() * pool.length)].n);
+  });
+
+  function renderStats(){
+    var a = attempts(), bm = byMock();
+    var L = a.map(function(x){ return x.lb; }).filter(function(x){ return x != null; });
+    var R = a.map(function(x){ return x.rb; }).filter(function(x){ return x != null; });
+    $('stDone').textContent = Object.keys(bm).length;
+    $('stL').textContent = L.length ? fmtBand(roundBand(avg(L))) : '–';
+    $('stR').textContent = R.length ? fmtBand(roundBand(avg(R))) : '–';
+    $('stLs').textContent = L.length ? 'from ' + L.length + ' attempt' + (L.length > 1 ? 's' : '') : 'no attempts yet';
+    $('stRs').textContent = R.length ? 'from ' + R.length + ' attempt' + (R.length > 1 ? 's' : '') : 'no attempts yet';
+    var u = untaken(), next = u.length ? u[0] : MOCKS[0];
+    $('nextLbl').textContent = u.length ? (a.length ? 'Up next' : 'Start here') : 'All done. Try one again';
+    $('nextName').textContent = 'Full Mock ' + next.n;
+    $('nextBtn').onclick = function(){ openMock(next.n); };
+  }
+
+  /* ---------- ready check ---------- */
+  var current = null;
+  function openMock(n){
+    if (!cand) {
+      $('sidErr').textContent = 'Enter your Student ID first, then choose a mock.';
+      showView('mocks'); window.scrollTo({top:0,behavior:'smooth'}); $('sidIn').focus(); return;
+    }
+    var k = MOCKS[n - 1]; current = k;
+    $('mTitle').textContent = 'Full Mock ' + n;
+    $('mWho').textContent = 'Student ID ' + cand.sid + (cand.name ? ' · ' + cand.name : '') + ' · about ' + (k.lmin + 120) + ' minutes in total';
+    $('mLmin').textContent = k.lmin + ' min · 40 Qs';
+    var at = byMock()[n] || [];
+    if (at.length) {
+      var last = at[at.length - 1];
+      $('mHist').hidden = false;
+      $('mHist').innerHTML = 'You have taken this mock ' + (at.length > 1 ? at.length + ' times' : 'before') + '. Last time: Listening <b>' + fmtBand(last.lb) + '</b>, Reading <b>' + fmtBand(last.rb) + '</b> (' + esc(new Date(last.end).toLocaleDateString()) + ').';
+    } else $('mHist').hidden = true;
+    document.querySelectorAll('.rc').forEach(function(c){ c.checked = false; c.closest('.check').classList.remove('ok'); });
+    $('mStart').disabled = true;
+    $('mStart').innerHTML = 'Start Full Mock ' + n + ' &rarr;';
+    $('scrim').classList.add('show');
+    setTimeout(function(){ $('soundBtn').focus(); }, 50);
+  }
+  function closeModal(){ $('scrim').classList.remove('show'); }
+  $('mCancel').addEventListener('click', closeModal);
+  $('scrim').addEventListener('click', function(e){ if (e.target === $('scrim')) closeModal(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') { closeModal(); $('confirmScrim').classList.remove('show'); $('rvScrim').classList.remove('show'); } });
+  document.querySelectorAll('.rc').forEach(function(c){
+    c.addEventListener('change', function(){
+      c.closest('.check').classList.toggle('ok', c.checked);
+      $('mStart').disabled = !Array.prototype.every.call(document.querySelectorAll('.rc'), function(x){ return x.checked; });
+    });
+  });
+  $('mStart').addEventListener('click', function(){
+    if (!current || !cand) return;
+    var q = '?sid=' + encodeURIComponent(cand.sid) + (cand.name ? '&name=' + encodeURIComponent(cand.name) : '') + ($('secureIn').checked ? '&secure=1' : '');
+    location.href = current.file + q;
+  });
+
+  function syncSecure(){
+    var on = $('secureIn').checked;
+    set('ielts7plus.secure', on);
+    $('secTxt').textContent = on ? 'On. Each section locks to fullscreen; leaving it or switching tabs counts as a violation, and the third one submits the section.' : 'Off. The test will not lock to fullscreen. Turn it on if this computer is connected to the internet.';
+    $('rcRule').textContent = on ? 'I understand the Listening audio plays once, and leaving fullscreen counts as a violation.' : "I understand the Listening audio plays once, and I'll see my answers only after the whole mock.";
+  }
+  $('secureIn').checked = !!get('ielts7plus.secure', false);
+  $('secureIn').addEventListener('change', syncSecure);
+  syncSecure();
+
+  /* stereo sound check */
+  var actx = null;
+  $('soundBtn').addEventListener('click', function(){
+    try {
+      actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+      if (actx.state === 'suspended') actx.resume();
+      [-1, 1].forEach(function(pan, i){
+        var o = actx.createOscillator(), g = actx.createGain(), t0 = actx.currentTime + i * 1.1;
+        o.type = 'sine'; o.frequency.value = i ? 660 : 440;
+        g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(0.25, t0 + 0.05); g.gain.setValueAtTime(0.25, t0 + 0.75); g.gain.linearRampToValueAtTime(0, t0 + 0.85);
+        var node = g;
+        if (actx.createStereoPanner) { var p = actx.createStereoPanner(); p.pan.value = pan; g.connect(p); node = p; }
+        o.connect(g); node.connect(actx.destination);
+        o.start(t0); o.stop(t0 + 0.9);
+      });
+      $('soundMsg').textContent = 'Playing: left ear… then right ear. Adjust your volume if needed.';
+      setTimeout(function(){ $('soundMsg').textContent = 'Heard both? Tick the first box. Didn\'t? Check your headphones and play it again.'; }, 2200);
+    } catch(e) { $('soundMsg').textContent = 'Sound check is not supported in this browser. Please use Chrome or Edge.'; }
+  });
+  var ua = navigator.userAgent;
+  if (!(/Chrome|Edg|CriOS|EdgiOS/.test(ua))) $('browserWarn').classList.add('show');
+
+  /* ---------- progress ---------- */
+  function trendChart(a){
+    var pts = a.filter(function(x){ return x.lb != null || x.rb != null; });
+    if (!pts.length) return '<p class="sub" style="margin:10px 0">Finish a mock to see your band trend here.</p>';
+    var vals = []; pts.forEach(function(p){ if (p.lb != null) vals.push(p.lb); if (p.rb != null) vals.push(p.rb); });
+    var W = 760, H = 240, pl = 34, pr = 14, pt = 12, pb = 28, lo = Math.max(0, Math.min(4, Math.floor(Math.min.apply(null, vals)))), hi = 9;
+    var n = pts.length, xs = function(i){ return n === 1 ? (pl + (W - pl - pr) / 2) : pl + i * (W - pl - pr) / (n - 1); };
+    var ys = function(b){ return pt + (hi - Math.max(lo, Math.min(hi, b))) * (H - pt - pb) / (hi - lo); };
+    var s = '<svg class="chart" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Band trend chart">';
+    for (var b = lo; b <= hi; b++) s += '<line x1="' + pl + '" x2="' + (W - pr) + '" y1="' + ys(b) + '" y2="' + ys(b) + '" stroke="#e5e7eb"/><text x="' + (pl - 8) + '" y="' + (ys(b) + 4) + '" font-size="11" fill="#6b7280" text-anchor="end">' + b + '</text>';
+    function line(key, color, dash){
+      var d = '', dots = '';
+      pts.forEach(function(p, i){ if (p[key] == null) return; d += (d ? 'L' : 'M') + xs(i) + ' ' + ys(p[key]); dots += '<circle cx="' + xs(i) + '" cy="' + ys(p[key]) + '" r="4" fill="' + color + '"><title>Mock ' + p.mock + ': ' + fmtBand(p[key]) + '</title></circle>'; });
+      return '<path d="' + d + '" fill="none" stroke="' + color + '" stroke-width="2.5" stroke-linejoin="round"' + (dash ? ' stroke-dasharray="7 5"' : '') + '/>' + dots;
+    }
+    s += line('rb', '#111827', true) + line('lb', '#dc2626');
+    pts.forEach(function(p, i){ if (n <= 16 || i % Math.ceil(n / 16) === 0) s += '<text x="' + xs(i) + '" y="' + (H - 8) + '" font-size="11" fill="#6b7280" text-anchor="middle">M' + p.mock + '</text>'; });
+    return s + '</svg>';
+  }
+  function renderProgress(){
+    var showAll = $('allStudents').checked;
+    var mine = attempts(), list = showAll ? attempts(false) : mine;
+    $('progKicker').textContent = cand ? 'Progress · Student ID ' + cand.sid : 'Progress';
+    $('progTitle').textContent = cand ? ((cand.name ? cand.name.split(' ')[0] + "'s" : 'Your') + ' results') : 'Results';
+    var done = {}; mine.forEach(function(x){ done[x.mock] = 1; });
+    $('pDone').textContent = Object.keys(done).length + ' / ' + MOCKS.length;
+    $('pDoneS').textContent = 'attempts: ' + mine.length;
+    function best(key){ var b = null, m = null; mine.forEach(function(x){ if (x[key] != null && (b == null || x[key] > b)) { b = x[key]; m = x.mock; } }); return [b, m]; }
+    var bl = best('lb'), br = best('rb');
+    $('pBL').textContent = fmtBand(bl[0]); $('pBLs').textContent = bl[1] ? 'Full Mock ' + bl[1] : ' ';
+    $('pBR').textContent = fmtBand(br[0]); $('pBRs').textContent = br[1] ? 'Full Mock ' + br[1] : ' ';
+    var both = mine.map(function(x){ return x.lb != null && x.rb != null ? (x.lb + x.rb) / 2 : null; }).filter(function(x){ return x != null; });
+    if (both.length >= 2) {
+      var k = Math.min(3, Math.floor(both.length / 2)) || 1;
+      var d = avg(both.slice(-k)) - avg(both.slice(0, k));
+      $('pTrend').textContent = (d > 0 ? '+' : d < 0 ? '−' : '±') + Math.abs(d).toFixed(1);
+      $('pTrend').style.color = d > 0 ? 'var(--green)' : d < 0 ? 'var(--red)' : '';
+      $('pTrendS').textContent = 'avg L/R band, last ' + k + ' vs first ' + k;
+    } else { $('pTrend').textContent = '–'; $('pTrend').style.color = ''; $('pTrendS').textContent = 'needs 2+ attempts'; }
+    $('chartBox').innerHTML = trendChart(mine);
+    $('histSub').textContent = showAll ? 'All students on this computer (' + list.length + ' attempts)' : (cand ? 'Student ID ' + cand.sid : 'Enter a Student ID to see results');
+    var rows = list.slice().reverse().map(function(x){
+      return '<tr><td>' + esc(new Date(x.end).toLocaleString()) + '</td>' + (showAll ? '<td>' + esc(x.sid) + '</td><td>' + esc(x.name || '') + '</td>' : '') +
+        '<td><b>Mock ' + x.mock + '</b></td><td class="num">' + fmtBand(x.lb) + '</td><td class="num">' + (x.lr != null ? x.lr + '/40' : '–') + '</td>' +
+        '<td class="num">' + fmtBand(x.rb) + '</td><td class="num">' + (x.rr != null ? x.rr + '/40' : '–') + '</td>' +
+        '<td class="num">' + (x.w1 || 0) + ' / ' + (x.w2 || 0) + '</td>' +
+        '<td class="num">' + (x.start && x.end ? Math.round((x.end - x.start) / 60000) + ' min' : '–') + '</td>' +
+        '<td>' + (get('ielts7plus.review.' + x.mock + '.' + x.end, null) ? '<button class="linkBtn" type="button" data-rv="' + x.mock + '.' + x.end + '">Review answers</button>' : '<span style="color:var(--muted)">–</span>') + '</td></tr>';
+    }).join('');
+    $('histTbl').innerHTML = '<thead><tr><th>Finished</th>' + (showAll ? '<th>Student ID</th><th>Name</th>' : '') + '<th>Mock</th><th>Listening</th><th>Raw</th><th>Reading</th><th>Raw</th><th>Writing words (T1 / T2)</th><th>Time</th><th>Answers</th></tr></thead><tbody>' +
+      (rows || '<tr><td colspan="' + (showAll ? 11 : 9) + '" style="color:var(--muted);padding:22px 10px">No finished mocks yet.</td></tr>') + '</tbody>';
+  }
+  $('allStudents').addEventListener('change', renderProgress);
+  var rvData = null;
+  function rvTable(rows){
+    if (!rows || !rows.length) return '<p class="sub" style="padding:14px;margin:0">No answers recorded for this section.</p>';
+    return '<table><thead><tr><th>Q</th><th>Your answer</th><th>Correct answer</th><th></th></tr></thead><tbody>' + rows.map(function(r){
+      return '<tr class="' + (r.ok ? 'ok' : 'no') + '"><td class="q">' + esc(r.q) + '</td><td class="ua">' + esc(r.ua) + '</td><td>' + esc(r.ca) + '</td><td class="m">' + (r.ok ? '&#10003;' : '&#10007;') + '</td></tr>';
+    }).join('') + '</tbody></table>';
+  }
+  function rvPick(s){
+    document.querySelectorAll('#rvTabs button').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.s === s ? 'true' : 'false'); });
+    $('rvBody').innerHTML = rvTable(rvData && rvData[s]);
+  }
+  $('histTbl').addEventListener('click', function(e){
+    var b = e.target.closest('[data-rv]'); if (!b) return;
+    rvData = get('ielts7plus.review.' + b.dataset.rv, null); if (!rvData) return;
+    var parts = b.dataset.rv.split('.');
+    $('rvTitle').textContent = 'Full Mock ' + parts[0] + ' · answer review';
+    $('rvSub').textContent = new Date(+parts[1]).toLocaleString();
+    rvPick('listening');
+    $('rvScrim').classList.add('show');
+  });
+  document.querySelectorAll('#rvTabs button').forEach(function(b){ b.addEventListener('click', function(){ rvPick(b.dataset.s); }); });
+  $('rvClose').addEventListener('click', function(){ $('rvScrim').classList.remove('show'); });
+  $('rvScrim').addEventListener('click', function(e){ if (e.target === $('rvScrim')) $('rvScrim').classList.remove('show'); });
+  $('csvBtn').addEventListener('click', function(){
+    var list = $('allStudents').checked ? attempts(false) : attempts();
+    if (!list.length) { toast('Nothing to export yet.'); return; }
+    var head = ['Finished','Student ID','Name','Mock','Listening band','Listening raw','Reading band','Reading raw','Writing T1 words','Writing T2 words','Minutes'];
+    var lines = [head.join(',')].concat(list.map(function(x){
+      return [new Date(x.end).toISOString(), x.sid, x.name || '', x.mock, x.lb == null ? '' : x.lb, x.lr == null ? '' : x.lr, x.rb == null ? '' : x.rb, x.rr == null ? '' : x.rr, x.w1 || 0, x.w2 || 0, x.start && x.end ? Math.round((x.end - x.start) / 60000) : '']
+        .map(function(v){ v = String(v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }).join(',');
+    }));
+    var blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv' });
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = 'IELTS7plus_mock_results_' + ($('allStudents').checked ? 'all' : (cand ? cand.sid : 'student')) + '.csv';
+    document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  });
+  $('clearBtn').addEventListener('click', function(){
+    var all = $('allStudents').checked;
+    $('cTitle').textContent = all ? 'Clear every student\'s results?' : 'Clear these results?';
+    $('cText').textContent = all ? 'This removes all saved attempts for every student on this computer. Export a CSV first if you need them.' : 'This removes the saved attempts for Student ID ' + (cand ? cand.sid : '') + ' on this computer.';
+    $('confirmScrim').classList.add('show');
+  });
+  $('cNo').addEventListener('click', function(){ $('confirmScrim').classList.remove('show'); });
+  $('cYes').addEventListener('click', function(){
+    var all = $('allStudents').checked;
+    set(KEY, all || !cand ? [] : get(KEY, []).filter(function(x){ return String(x.sid) !== String(cand.sid); }));
+    $('confirmScrim').classList.remove('show'); renderAll(); toast('Results cleared.');
+  });
+
+  /* ---------- views ---------- */
+  function showView(v){
+    document.querySelectorAll('.view').forEach(function(s){ s.classList.toggle('show', s.id === 'view-' + v); });
+    document.querySelectorAll('.tab').forEach(function(t){ t.setAttribute('aria-selected', t.dataset.view === v ? 'true' : 'false'); });
+    if (v === 'progress') renderProgress();
+    try { sessionStorage.setItem('ielts7plus.view', v); } catch(e){}
+  }
+  document.querySelectorAll('.tab').forEach(function(t){ t.addEventListener('click', function(){ showView(t.dataset.view); }); });
+
+  function renderAll(){ renderCand(); renderGrid(); renderStats(); if ($('view-progress').classList.contains('show')) renderProgress(); }
+  renderAll();
+  if (doneRaw) showView('progress');
+})();
+</script>
+</body>
+</html>
