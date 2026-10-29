@@ -21,6 +21,6 @@ FOR TEACHERS
 - Results are saved in this browser on this computer. Open Progress > Export CSV to collect them.
   Tick "Show all students on this computer" to export everyone.
 - To use more computers, copy the whole folder to each one, or upload the folder to any static web host.
-- Everything works offline. Nothing is sent over the internet.
+- Mocks 1-28 work fully offline. Mocks 29-53 need an internet connection for the Listening audio and some Writing charts. Nothing you type is sent over the internet.
 
 IELTS 7+ · +880 1335-254382 · www.ielts7plus.co.uk · info@ielts7plus.co.uk

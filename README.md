@@ -2,7 +2,7 @@
 
 **IELTS 7+ · Md Salim Shadman · Head of IELTS and Language Teaching**
 
-28 full IELTS Academic mock tests (Listening, Reading and Writing) that run entirely in the browser.
+53 full IELTS Academic mock tests (Listening, Reading and Writing) that run entirely in the browser.
 
 ## Use it
 
@@ -14,7 +14,7 @@ Open `index.html`, enter a Student ID, pick a mock, complete the ready check and
 - Writing responses download as a `.txt` file named with the Student ID, for the teacher to mark.
 - Results are saved in the browser. Use **Progress → Export CSV** to collect them.
 
-Works offline too: download the repository, keep `index.html` and the `mocks` folder together, and open `index.html` in Chrome or Edge.
+Mocks 1–28 work offline too: download the repository, keep `index.html` and the `mocks` folder together, and open `index.html` in Chrome or Edge. Mocks 29–53 stream their Listening audio (and some Writing Task 1 charts) from the internet, so they are marked "needs internet" in the library.
 
 ## Structure
 

@@ -80,6 +80,7 @@
   .mock .num span{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
   .mock .num strong{font-size:34px;font-weight:800;letter-spacing:-1px;line-height:1}
   .mock .meta{font-size:12.5px;color:var(--muted)}
+  .mock .meta .net{display:block;margin-top:3px;color:#b45309;font-weight:700}
   .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:9999px;align-self:flex-start}
   .pill.new{background:var(--bg);color:var(--ink-2)}
   .pill.done{background:var(--green-soft);color:var(--green)}
@@ -203,7 +204,7 @@
     <div class="wrap">
       <div class="hero">
         <div class="kicker">Academic · Computer-delivered practice</div>
-        <h1>28 full IELTS mock tests</h1>
+        <h1>53 full IELTS mock tests</h1>
         <p class="lead">Listening, Reading and Writing in one sitting, just like test day. Enter your Student ID once, choose a mock and go. Listening and Reading are marked when the whole mock is finished; your Writing is saved for your teacher.</p>
 
         <div class="heroGrid">
@@ -226,7 +227,7 @@
 
           <div class="card">
             <div class="stats">
-              <div class="stat"><div class="l">Completed</div><div class="v" id="stDone">0</div><div class="s">of 28 mocks</div></div>
+              <div class="stat"><div class="l">Completed</div><div class="v" id="stDone">0</div><div class="s">of 53 mocks</div></div>
               <div class="stat"><div class="l">Avg Listening</div><div class="v" id="stL">–</div><div class="s" id="stLs">no attempts yet</div></div>
               <div class="stat"><div class="l">Avg Reading</div><div class="v" id="stR">–</div><div class="s" id="stRs">no attempts yet</div></div>
             </div>
@@ -291,7 +292,7 @@
       <div class="hero">
         <div class="kicker">How it works</div>
         <h1>Test day, in your browser</h1>
-        <p class="lead">Each mock follows the real computer-delivered IELTS Academic order and timing. Everything runs offline from this folder; nothing is uploaded anywhere.</p>
+        <p class="lead">Each mock follows the real computer-delivered IELTS Academic order and timing. Mocks 1&ndash;28 run fully offline from this folder. Mocks 29 and up stream their Listening audio (and some Writing charts) from the internet, so they are marked &ldquo;needs internet&rdquo;. Nothing you write is uploaded anywhere.</p>
       </div>
       <div class="help">
         <div class="card panel">
@@ -404,7 +405,7 @@
 
 <script>
 (function(){
-  var MOCKS = [{"n": 1, "lmin": 30, "file": "mocks/mock-01/IELTS_Full_Mock_1.html"}, {"n": 2, "lmin": 31, "file": "mocks/mock-02/IELTS_Full_Mock_2.html"}, {"n": 3, "lmin": 30, "file": "mocks/mock-03/IELTS_Full_Mock_3.html"}, {"n": 4, "lmin": 31, "file": "mocks/mock-04/IELTS_Full_Mock_4.html"}, {"n": 5, "lmin": 29, "file": "mocks/mock-05/IELTS_Full_Mock_5.html"}, {"n": 6, "lmin": 30, "file": "mocks/mock-06/IELTS_Full_Mock_6.html"}, {"n": 7, "lmin": 29, "file": "mocks/mock-07/IELTS_Full_Mock_7.html"}, {"n": 8, "lmin": 33, "file": "mocks/mock-08/IELTS_Full_Mock_8.html"}, {"n": 9, "lmin": 32, "file": "mocks/mock-09/IELTS_Full_Mock_9.html"}, {"n": 10, "lmin": 32, "file": "mocks/mock-10/IELTS_Full_Mock_10.html"}, {"n": 11, "lmin": 27, "file": "mocks/mock-11/IELTS_Full_Mock_11.html"}, {"n": 12, "lmin": 33, "file": "mocks/mock-12/IELTS_Full_Mock_12.html"}, {"n": 13, "lmin": 32, "file": "mocks/mock-13/IELTS_Full_Mock_13.html"}, {"n": 14, "lmin": 28, "file": "mocks/mock-14/IELTS_Full_Mock_14.html"}, {"n": 15, "lmin": 26, "file": "mocks/mock-15/IELTS_Full_Mock_15.html"}, {"n": 16, "lmin": 29, "file": "mocks/mock-16/IELTS_Full_Mock_16.html"}, {"n": 17, "lmin": 30, "file": "mocks/mock-17/IELTS_Full_Mock_17.html"}, {"n": 18, "lmin": 27, "file": "mocks/mock-18/IELTS_Full_Mock_18.html"}, {"n": 19, "lmin": 25, "file": "mocks/mock-19/IELTS_Full_Mock_19.html"}, {"n": 20, "lmin": 28, "file": "mocks/mock-20/IELTS_Full_Mock_20.html"}, {"n": 21, "lmin": 27, "file": "mocks/mock-21/IELTS_Full_Mock_21.html"}, {"n": 22, "lmin": 28, "file": "mocks/mock-22/IELTS_Full_Mock_22.html"}, {"n": 23, "lmin": 30, "file": "mocks/mock-23/IELTS_Full_Mock_23.html"}, {"n": 24, "lmin": 30, "file": "mocks/mock-24/IELTS_Full_Mock_24.html"}, {"n": 25, "lmin": 33, "file": "mocks/mock-25/IELTS_Full_Mock_25.html"}, {"n": 26, "lmin": 29, "file": "mocks/mock-26/IELTS_Full_Mock_26.html"}, {"n": 27, "lmin": 31, "file": "mocks/mock-27/IELTS_Full_Mock_27.html"}, {"n": 28, "lmin": 29, "file": "mocks/mock-28/IELTS_Full_Mock_28.html"}];
+  var MOCKS = [{"n": 1, "lmin": 30, "file": "mocks/mock-01/IELTS_Full_Mock_1.html"}, {"n": 2, "lmin": 31, "file": "mocks/mock-02/IELTS_Full_Mock_2.html"}, {"n": 3, "lmin": 30, "file": "mocks/mock-03/IELTS_Full_Mock_3.html"}, {"n": 4, "lmin": 31, "file": "mocks/mock-04/IELTS_Full_Mock_4.html"}, {"n": 5, "lmin": 29, "file": "mocks/mock-05/IELTS_Full_Mock_5.html"}, {"n": 6, "lmin": 30, "file": "mocks/mock-06/IELTS_Full_Mock_6.html"}, {"n": 7, "lmin": 29, "file": "mocks/mock-07/IELTS_Full_Mock_7.html"}, {"n": 8, "lmin": 33, "file": "mocks/mock-08/IELTS_Full_Mock_8.html"}, {"n": 9, "lmin": 32, "file": "mocks/mock-09/IELTS_Full_Mock_9.html"}, {"n": 10, "lmin": 32, "file": "mocks/mock-10/IELTS_Full_Mock_10.html"}, {"n": 11, "lmin": 27, "file": "mocks/mock-11/IELTS_Full_Mock_11.html"}, {"n": 12, "lmin": 33, "file": "mocks/mock-12/IELTS_Full_Mock_12.html"}, {"n": 13, "lmin": 32, "file": "mocks/mock-13/IELTS_Full_Mock_13.html"}, {"n": 14, "lmin": 28, "file": "mocks/mock-14/IELTS_Full_Mock_14.html"}, {"n": 15, "lmin": 26, "file": "mocks/mock-15/IELTS_Full_Mock_15.html"}, {"n": 16, "lmin": 29, "file": "mocks/mock-16/IELTS_Full_Mock_16.html"}, {"n": 17, "lmin": 30, "file": "mocks/mock-17/IELTS_Full_Mock_17.html"}, {"n": 18, "lmin": 27, "file": "mocks/mock-18/IELTS_Full_Mock_18.html"}, {"n": 19, "lmin": 25, "file": "mocks/mock-19/IELTS_Full_Mock_19.html"}, {"n": 20, "lmin": 28, "file": "mocks/mock-20/IELTS_Full_Mock_20.html"}, {"n": 21, "lmin": 27, "file": "mocks/mock-21/IELTS_Full_Mock_21.html"}, {"n": 22, "lmin": 28, "file": "mocks/mock-22/IELTS_Full_Mock_22.html"}, {"n": 23, "lmin": 30, "file": "mocks/mock-23/IELTS_Full_Mock_23.html"}, {"n": 24, "lmin": 30, "file": "mocks/mock-24/IELTS_Full_Mock_24.html"}, {"n": 25, "lmin": 33, "file": "mocks/mock-25/IELTS_Full_Mock_25.html"}, {"n": 26, "lmin": 29, "file": "mocks/mock-26/IELTS_Full_Mock_26.html"}, {"n": 27, "lmin": 31, "file": "mocks/mock-27/IELTS_Full_Mock_27.html"}, {"n": 28, "lmin": 29, "file": "mocks/mock-28/IELTS_Full_Mock_28.html"}, {"n": 29, "lmin": 29, "file": "mocks/mock-29/IELTS_Full_Mock_29.html", "online": true}, {"n": 30, "lmin": 29, "file": "mocks/mock-30/IELTS_Full_Mock_30.html", "online": true}, {"n": 31, "lmin": 29, "file": "mocks/mock-31/IELTS_Full_Mock_31.html", "online": true}, {"n": 32, "lmin": 31, "file": "mocks/mock-32/IELTS_Full_Mock_32.html", "online": true}, {"n": 33, "lmin": 32, "file": "mocks/mock-33/IELTS_Full_Mock_33.html", "online": true}, {"n": 34, "lmin": 32, "file": "mocks/mock-34/IELTS_Full_Mock_34.html", "online": true}, {"n": 35, "lmin": 32, "file": "mocks/mock-35/IELTS_Full_Mock_35.html", "online": true}, {"n": 36, "lmin": 32, "file": "mocks/mock-36/IELTS_Full_Mock_36.html", "online": true}, {"n": 37, "lmin": 32, "file": "mocks/mock-37/IELTS_Full_Mock_37.html", "online": true}, {"n": 38, "lmin": 26, "file": "mocks/mock-38/IELTS_Full_Mock_38.html", "online": true}, {"n": 39, "lmin": 32, "file": "mocks/mock-39/IELTS_Full_Mock_39.html", "online": true}, {"n": 40, "lmin": 28, "file": "mocks/mock-40/IELTS_Full_Mock_40.html", "online": true}, {"n": 41, "lmin": 30, "file": "mocks/mock-41/IELTS_Full_Mock_41.html", "online": true}, {"n": 42, "lmin": 29, "file": "mocks/mock-42/IELTS_Full_Mock_42.html", "online": true}, {"n": 43, "lmin": 29, "file": "mocks/mock-43/IELTS_Full_Mock_43.html", "online": true}, {"n": 44, "lmin": 29, "file": "mocks/mock-44/IELTS_Full_Mock_44.html", "online": true}, {"n": 45, "lmin": 28, "file": "mocks/mock-45/IELTS_Full_Mock_45.html", "online": true}, {"n": 46, "lmin": 25, "file": "mocks/mock-46/IELTS_Full_Mock_46.html", "online": true}, {"n": 47, "lmin": 29, "file": "mocks/mock-47/IELTS_Full_Mock_47.html", "online": true}, {"n": 48, "lmin": 27, "file": "mocks/mock-48/IELTS_Full_Mock_48.html", "online": true}, {"n": 49, "lmin": 31, "file": "mocks/mock-49/IELTS_Full_Mock_49.html", "online": true}, {"n": 50, "lmin": 25, "file": "mocks/mock-50/IELTS_Full_Mock_50.html", "online": true}, {"n": 51, "lmin": 23, "file": "mocks/mock-51/IELTS_Full_Mock_51.html", "online": true}, {"n": 52, "lmin": 32, "file": "mocks/mock-52/IELTS_Full_Mock_52.html", "online": true}, {"n": 53, "lmin": 30, "file": "mocks/mock-53/IELTS_Full_Mock_53.html", "online": true}];
   var KEY = 'ielts7plus.attempts', CAND = 'ielts7plus.candidate';
   var mem = {};
   function get(k, d){ try { var v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch(e){ return k in mem ? mem[k] : d; } }
@@ -485,7 +486,7 @@
       if (filter === 'done' && !at.length) return;
       html += '<button class="mock' + (at.length ? ' done' : '') + '" data-n="' + k.n + '" type="button">' +
         '<div class="num"><span>Full Mock</span><strong>' + k.n + '</strong></div>' +
-        '<div class="meta">L ' + k.lmin + ' min · R 60 min · W 60 min</div>' +
+        '<div class="meta">L ' + k.lmin + ' min · R 60 min · W 60 min' + (k.online ? '<span class="net" title="Listening audio and some Writing charts load from the internet">Needs internet</span>' : '') + '</div>' +
         (at.length
           ? '<span class="pill done">&#10003; Completed' + (at.length > 1 ? ' ×' + at.length : '') + '</span>' +
             '<div class="bands"><div><small>Listening</small><b>' + fmtBand(last.lb) + '</b></div><div><small>Reading</small><b>' + fmtBand(last.rb) + '</b></div></div>'
