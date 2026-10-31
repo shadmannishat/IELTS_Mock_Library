@@ -23,9 +23,13 @@ def fetch(url):
     if url in _cache:
         return _cache[url]
     last = None
-    for attempt in range(7):
+    urls = [url]
+    m = re.match(r'https?://ia\d+\.us\.archive\.org/\d+/items/(.+)$', url)
+    if m:  # a single storage server can be down; the main address picks a working copy
+        urls.append('https://archive.org/download/' + m.group(1))
+    for attempt in range(8):
         try:
-            req = urllib.request.Request(url, headers=UA)
+            req = urllib.request.Request(urls[attempt % len(urls)], headers=UA)
             with urllib.request.urlopen(req, timeout=300) as r:
                 data = r.read()
                 ctype = r.headers.get('Content-Type', '').split(';')[0].strip()
