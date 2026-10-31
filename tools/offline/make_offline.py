@@ -92,14 +92,20 @@ def get_audio(remote, audio_dir, n, report):
             r = subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-err_detect', 'ignore_err', '-i', raw, '-vn', '-ac', '1',
                                 '-b:a', os.environ.get('AUDIO_BITRATE', '96k'), out], capture_output=True, text=True)
             if r.returncode != 0 or not os.path.exists(out) or os.path.getsize(out) < 100_000:
-                raise RuntimeError('ffmpeg: ' + (r.stderr or '')[-160:])
+                info = 'ffmpeg could not shrink it (%d bytes, starts %r): %s' % (len(data), data[:8], (r.stderr or '').strip()[:200])
+                if data[:3] == b'ID3' or (data[0] == 0xFF and data[1] & 0xE0 == 0xE0):
+                    # still a playable MP3 for browsers; keep the original file
+                    os.replace(raw, out)
+                    report.append('::warning::mock %d audio kept at original size. %s' % (n, info))
+                    return True
+                raise RuntimeError(info)
             os.remove(raw)
             report.append('mock %d audio %.1f MB -> %.1f MB' % (n, len(data) / 1e6, os.path.getsize(out) / 1e6))
             return True
         except Exception as e:
             errs.append(str(e)[:160])
     if os.path.exists(raw): os.remove(raw)
-    report.append('::error::mock %d audio not downloaded: %s' % (n, ' | '.join(errs)[-400:]))
+    report.append('::error::mock %d audio not downloaded: %s' % (n, ' | '.join(errs)[:600]))
     return False
 
 
