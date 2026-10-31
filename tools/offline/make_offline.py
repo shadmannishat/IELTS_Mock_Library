@@ -10,7 +10,7 @@ Run by the 'Build offline pack' GitHub Action (it needs internet access).
    that local file when opened from the computer, and the online copy otherwise.
 3. A complete offline zip of the whole library is written to dist/.
 """
-import base64, json, os, re, subprocess, sys, urllib.request, zipfile, shutil
+import base64, json, os, re, subprocess, sys, time, urllib.request, zipfile, shutil
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 FIRST, LAST = 29, 66
@@ -23,17 +23,18 @@ def fetch(url):
     if url in _cache:
         return _cache[url]
     last = None
-    for attempt in range(4):
+    for attempt in range(7):
         try:
             req = urllib.request.Request(url, headers=UA)
-            with urllib.request.urlopen(req, timeout=180) as r:
+            with urllib.request.urlopen(req, timeout=300) as r:
                 data = r.read()
                 ctype = r.headers.get('Content-Type', '').split(';')[0].strip()
             if len(data) < 5_000_000:
                 _cache[url] = (data, ctype)
             return data, ctype
-        except Exception as e:  # retry
+        except Exception as e:  # retry with a growing pause
             last = e
+            time.sleep(5 * (attempt + 1))
     raise RuntimeError('download failed: %s (%s)' % (url, last))
 
 
