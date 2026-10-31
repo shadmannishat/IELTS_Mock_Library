@@ -29,7 +29,8 @@ def fetch(url):
             with urllib.request.urlopen(req, timeout=180) as r:
                 data = r.read()
                 ctype = r.headers.get('Content-Type', '').split(';')[0].strip()
-            _cache[url] = (data, ctype)
+            if len(data) < 5_000_000:
+                _cache[url] = (data, ctype)
             return data, ctype
         except Exception as e:  # retry
             last = e
@@ -67,6 +68,21 @@ def font_awesome_css(url):
     return FA_CSS
 
 
+def get_audio(remote, audio_dir, n, report):
+    try:
+        data, _ = fetch(remote)
+        os.makedirs(audio_dir, exist_ok=True)
+        raw = os.path.join(audio_dir, 'source.bin'); open(raw, 'wb').write(data)
+        out = os.path.join(audio_dir, 'Listening.mp3')
+        subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', raw, '-vn', '-ac', '1', '-b:a', os.environ.get('AUDIO_BITRATE', '96k'), out], check=True)
+        os.remove(raw)
+        report.append('mock %d audio %.1f MB -> %.1f MB' % (n, len(data) / 1e6, os.path.getsize(out) / 1e6))
+        return True
+    except Exception as e:
+        report.append('::error::mock %d audio not downloaded: %s' % (n, str(e)[:200]))
+        return False
+
+
 def split_sections(shell):
     """Return list of (key, start, end, html) for the JSON strings inside const SECTIONS."""
     dec = json.JSONDecoder(); out = []
@@ -89,25 +105,27 @@ def fix_section(key, html, n, audio_dir, report):
         if 'font-awesome' in url:
             return '<style>' + font_awesome_css(url) + '</style>'
         return '<style>' + fetch(url)[0].decode('utf-8', 'ignore') + '</style>'
-    html = re.sub(r'<link[^>]+href=["\'](https?://[^"\']+\.css[^"\']*)["\'][^>]*>', css_link, html)
+    def safe(fn):
+        def w(m):
+            try:
+                return fn(m)
+            except Exception as e:
+                report.append('::error::mock %d %s asset not embedded: %s' % (n, key, str(e)[:200]))
+                return m.group(0)
+        return w
+    html = re.sub(r'<link[^>]+href=["\'](https?://[^"\']+\.css[^"\']*)["\'][^>]*>', safe(css_link), html)
     # scripts
     def script_src(m):
         js = fetch(m.group(1))[0].decode('utf-8', 'ignore').replace('</script', '<\\/script')
         return '<script>' + js + '</script>'
-    html = re.sub(r'<script[^>]*src=["\'](https?://[^"\']+)["\'][^>]*>\s*</script>', script_src, html)
+    html = re.sub(r'<script[^>]*src=["\'](https?://[^"\']+)["\'][^>]*>\s*</script>', safe(script_src), html)
     # audio (listening)
     if key == 'listening':
         m = re.search(r"const audioSource\s*=\s*'([^']+)'\s*;", html)
         if not m:
             raise RuntimeError('mock %d: no audioSource' % n)
         remote = m.group(1).replace('http://', 'https://')
-        data, _ = fetch(remote)
-        os.makedirs(audio_dir, exist_ok=True)
-        raw = os.path.join(audio_dir, 'source.bin'); open(raw, 'wb').write(data)
-        out = os.path.join(audio_dir, 'Listening.mp3')
-        subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', raw, '-vn', '-ac', '1', '-b:a', os.environ.get('AUDIO_BITRATE', '96k'), out], check=True)
-        os.remove(raw)
-        report.append('mock %d audio %.1f MB -> %.1f MB' % (n, len(data) / 1e6, os.path.getsize(out) / 1e6))
+        get_audio(remote, audio_dir, n, report)
         new = "const audioSource = (window.__i7remote = '%s', /^file:/.test(document.baseURI) ? 'Listening.mp3' : window.__i7remote);" % remote
         html = html[:m.start()] + new + html[m.end():]
         html = html.replace(
@@ -120,7 +138,11 @@ def fix_section(key, html, n, audio_dir, report):
         host = url.split('/')[2]
         if host in SKIP_HOSTS:
             return m.group(0)
-        return m.group(1) + data_uri(url) + m.group(3)
+        try:
+            return m.group(1) + data_uri(url) + m.group(3)
+        except Exception as e:
+            report.append('::error::mock %d %s image not embedded: %s' % (n, key, str(e)[:200]))
+            return m.group(0)
     html = re.sub(r'(<img[^>]*?\ssrc=["\'])(https?://[^"\']+)(["\'])', img, html)
     html = re.sub(r'(url\(["\']?)(https?://[^"\')]+\.(?:png|jpe?g|gif|webp|svg)[^"\')]*)(["\']?\))', img, html)
     left = sorted(set(u for u in re.findall(r'<(?:img|script|link|audio|source|iframe|video)[^>]+(?:src|href)=["\'](https?://[^"\']+)', html)
@@ -141,19 +163,23 @@ def main():
             print('mock %d already converted - audio only' % n)
         secs = split_sections(shell)
         audio_dir = os.path.join(stage, 'mocks', 'mock-%02d' % n)
-        for key, start, end, html in reversed(secs):
-            if key == 'listening' and '__i7remote' in html:
-                m = re.search(r"window.__i7remote = '([^']+)'", html)
-                data, _ = fetch(m.group(1)); os.makedirs(audio_dir, exist_ok=True)
-                raw = os.path.join(audio_dir, 'source.bin'); open(raw, 'wb').write(data)
-                subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', raw, '-vn', '-ac', '1', '-b:a', os.environ.get('AUDIO_BITRATE', '96k'), os.path.join(audio_dir, 'Listening.mp3')], check=True)
-                os.remove(raw)
-                continue
-            new = fix_section(key, html, n, audio_dir, report)
-            shell = shell[:start] + enc(new) + shell[end:]
+        try:
+          for key, start, end, html in reversed(secs):
+              if key == 'listening' and '__i7remote' in html:
+                  m = re.search(r"window.__i7remote = '([^']+)'", html)
+                  get_audio(m.group(1), audio_dir, n, report)
+                  continue
+              new = fix_section(key, html, n, audio_dir, report)
+              shell = shell[:start] + enc(new) + shell[end:]
+        except Exception as e:
+            report.append('::error::mock %d not converted: %s' % (n, str(e)[:200]))
+            continue
         open(path, 'w', encoding='utf-8').write(shell)
         print('done mock', n, flush=True)
     print('\n'.join(report))
+    errs = [r for r in report if r.startswith('::error::')]
+    total = sum(os.path.getsize(os.path.join(b, f)) for b, _, fs in os.walk(stage) for f in fs) if os.path.isdir(stage) else 0
+    print('::notice::offline pack: %d problems, audio total %.0f MB' % (len(errs), total / 1e6))
     if os.environ.get('NO_ZIP'):
         return
     # complete offline zip: whole site + downloaded audio
@@ -180,7 +206,7 @@ def main():
             for f in files:
                 p = os.path.join(base, f)
                 z.write(p, os.path.join(top, os.path.relpath(p, stage)))
-    print('zip %.0f MB' % (os.path.getsize(zpath) / 1e6))
+    print('::notice::zip %.0f MB' % (os.path.getsize(zpath) / 1e6))
 
 
 if __name__ == '__main__':
