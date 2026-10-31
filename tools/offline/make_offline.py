@@ -74,18 +74,33 @@ def font_awesome_css(url):
 
 
 def get_audio(remote, audio_dir, n, report):
-    try:
-        data, _ = fetch(remote)
-        os.makedirs(audio_dir, exist_ok=True)
-        raw = os.path.join(audio_dir, 'source.bin'); open(raw, 'wb').write(data)
-        out = os.path.join(audio_dir, 'Listening.mp3')
-        subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', raw, '-vn', '-ac', '1', '-b:a', os.environ.get('AUDIO_BITRATE', '96k'), out], check=True)
-        os.remove(raw)
-        report.append('mock %d audio %.1f MB -> %.1f MB' % (n, len(data) / 1e6, os.path.getsize(out) / 1e6))
-        return True
-    except Exception as e:
-        report.append('::error::mock %d audio not downloaded: %s' % (n, str(e)[:200]))
-        return False
+    os.makedirs(audio_dir, exist_ok=True)
+    raw = os.path.join(audio_dir, 'source.bin'); out = os.path.join(audio_dir, 'Listening.mp3')
+    cands = [remote]
+    m = re.match(r'https?://ia\d+\.us\.archive\.org/\d+/items/(.+)$', remote)
+    if m:
+        cands.append('https://archive.org/download/' + m.group(1))
+    errs = []
+    for url in cands * 2:
+        try:
+            _cache.pop(url, None)
+            data, ctype = fetch(url)
+            if data[:200].lstrip().lower().startswith((b'<!doctype', b'<html')) or len(data) < 100_000:
+                raise RuntimeError('got %s, %d bytes, not a recording' % (ctype, len(data)))
+            open(raw, 'wb').write(data)
+            # tolerate a damaged frame or two instead of failing the whole file
+            r = subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-err_detect', 'ignore_err', '-i', raw, '-vn', '-ac', '1',
+                                '-b:a', os.environ.get('AUDIO_BITRATE', '96k'), out], capture_output=True, text=True)
+            if r.returncode != 0 or not os.path.exists(out) or os.path.getsize(out) < 100_000:
+                raise RuntimeError('ffmpeg: ' + (r.stderr or '')[-160:])
+            os.remove(raw)
+            report.append('mock %d audio %.1f MB -> %.1f MB' % (n, len(data) / 1e6, os.path.getsize(out) / 1e6))
+            return True
+        except Exception as e:
+            errs.append(str(e)[:160])
+    if os.path.exists(raw): os.remove(raw)
+    report.append('::error::mock %d audio not downloaded: %s' % (n, ' | '.join(errs)[-400:]))
+    return False
 
 
 def split_sections(shell):
