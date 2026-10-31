@@ -1,0 +1,53 @@
+name: Build offline pack
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/offline/**'
+      - '.github/workflows/offline-pack.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: offline-pack
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Install ffmpeg
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+
+      - name: Download recordings, embed images and build the zip
+        run: python3 tools/offline/make_offline.py
+
+      - name: Save the self-contained mocks back to the site
+        run: |
+          git config user.name "offline-pack-bot"
+          git config user.email "offline-pack-bot@users.noreply.github.com"
+          git add mocks
+          if git diff --cached --quiet; then
+            echo "Mocks already self-contained"
+          else
+            git commit -m "Embed images and scripts in mocks 29-66 for offline use"
+            git push
+          fi
+
+      - name: Save the offline zip as a private draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ls -la dist
+          gh release delete offline-pack --yes 2>/dev/null || true
+          gh release create offline-pack dist/IELTS7plus_Mock_Library_Offline.zip --draft \
+            --title "Offline pack (all mocks) - private draft" \
+            --notes "Private draft: only people with write access to this repository can see it. Download IELTS7plus_Mock_Library_Offline.zip, unzip it, and open index.html in Chrome or Edge. Every mock then works without internet."
