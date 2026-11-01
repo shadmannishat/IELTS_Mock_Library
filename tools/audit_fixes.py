@@ -117,9 +117,79 @@ def key_literal_replace(h, pairs):
     return h[:i] + seg + h[j:]
 
 
+import json as _json
+
+# Answer-key corrections from checking each key against its passage (and published keys where available).
+# value: a string or a list of accepted answers (first one is shown as "the" answer)
+KEY_FIXES = {
+    (31, 'reading'): {'10': ['A', 'B']},  # Lord Rayleigh and John William Strutt are the same person
+    (32, 'reading'): {'40': ['K', 'G']},  # "its battery pack restricted cargo space"
+    # mock 34's page script loads a different Reading test at runtime (Plain English Campaign ...); its original
+    # key matches what students see, so it is kept as it was (an earlier change based on the hidden text is undone here)
+    (34, 'reading'): {'1': 'TRUE', '2': 'NOT GIVEN', '3': 'TRUE', '4': 'NOT GIVEN', '5': 'NOT GIVEN', '6': 'FALSE',
+                      '7': 'jargon and waffle', '8': 'Gap', '9': 'do-it-yourself', '10': 'frustration',
+                      '11': 'first-time user', '12': 'legal', '13': 'courts'},
+    (35, 'reading'): {'11': 'FALSE', '23': 'I'},
+    (36, 'reading'): {'34': ['first luxuries', 'luxuries', 'the first luxury', 'first luxury', 'luxury']},
+    (37, 'reading'): {'3': 'TRUE', '24': 'B', '25': 'A', '35': ['wastewater', 'waste water']},
+    (38, 'reading'): {'20': ['centre', 'center']},
+    (41, 'reading'): {'34': ['neorealism', 'neorealist', 'neorealist films']},
+    (42, 'reading'): {'7': ['inventor', 'normal inventor']},
+    (52, 'reading'): {'8': ['three years', '3 years', 'three', '3'], '33': ['marketing team', 'marketing teams'],
+                      '34': ['designers', 'design agencies', 'external designers'],
+                      '35': ['consumer group', 'consumer groups', 'consumers'],
+                      '36': ['in-house teams', 'in-house team', 'in-house designers']},
+    (52, 'listening'): {'q8': ['scooter', 'scooters']},
+    (53, 'reading'): {'25': ['rural economies', 'rural economics']},
+    (57, 'reading'): {'9': ['NGO', 'non-governmental organization', 'non-governmental organisation', 'non governmental organization'],
+                      '11': ['solar, wind, biomass', 'biomass, solar and wind', 'biomass solar and wind', 'solar wind and biomass', 'solar, wind and biomass']},
+    (64, 'reading'): {'10': ['sky pointing', 'skypointing', 'sky-pointing']},
+    (66, 'reading'): {'33': ['breathing', 'eating'], '34': ['eating', 'breathing'], '35': 'babies', '36': 'brain activity',
+                      '37': 'vigorous exercise', '38': 'temperature', '39': 'scanning techniques'},
+}
+
+
+def set_keys(h, fixes):
+    i = h.find('correctAnswers = {')
+    if i < 0:
+        return h
+    j = h.find('};', i)
+    seg = h[i:j]
+    for q, val in fixes.items():
+        lit = _json.dumps(val, ensure_ascii=False).replace('"', "'") if isinstance(val, list) else "'%s'" % val
+        pat = r"""((['"]?)%s\2\s*:\s*)(\[[^\]]*\]|'[^']*'|"[^"]*")""" % re.escape(q)
+        seg, k = re.subn(pat, lambda m: m.group(1) + lit, seg, count=1)
+        if not k:
+            raise RuntimeError('key %s not found' % q)
+    return h[:i] + seg + h[j:]
+
+
+def allow_alternatives(h):
+    """Let exact-match comparisons accept a list of answers (needed for keys with alternatives)."""
+    if 'correctAnswer.includes(userAnswer) : userAnswer === correctAnswer' in h:
+        return h
+    h = re.sub(r'(?<![\w.(])userAnswer === correctAnswer(?![.\w])',
+               '(Array.isArray(correctAnswer) ? correctAnswer.includes(userAnswer) : userAnswer === correctAnswer)', h)
+    h = h.replace('isCorrect = userAnswer === correctAnswer.toLowerCase();',
+                  'isCorrect = (Array.isArray(correctAnswer) ? correctAnswer : [correctAnswer]).some(a => userAnswer === String(a).toLowerCase());')
+    return h
+
+
 def fix_section(n, key, h):
     h = rebrand(h)
     block = ''
+    if (n, key) in KEY_FIXES:
+        h = allow_alternatives(h)
+        h = set_keys(h, KEY_FIXES[(n, key)])
+    if n == 66 and key == 'reading':   # Q33/Q34 are separate boxes: breathing and eating, either order, one per box
+        h = re.sub(r"if \(i === 33\) \{\s*const answers = userAnswer\.split\('&'\)\.map\(ans => ans\.trim\(\)\);\s*isCorrect = answers\.includes\('breathing'\) && answers\.includes\('eating'\);\s*\}",
+                      lambda m: "if (i === 33 || i === 34) { const other = ((document.getElementById(i === 33 ? 'q34' : 'q33') || {}).value || '').trim().toLowerCase(); isCorrect = ['breathing', 'eating'].includes(userAnswer) && userAnswer !== other; }", h)
+    if n == 66 and key == 'reading' and '/*i7pair*/' not in h:   # no second mark for repeating Q33's word in Q34
+        h = re.sub(r"(userAnswer\.toLowerCase\(\) === correctAnswer\.toLowerCase\(\);\s*\})",
+                   lambda m: m.group(1) + " /*i7pair*/ if (i === 34 && isCorrect && ((document.getElementById('q33') || {}).value || '').trim().toLowerCase() === userAnswer.toLowerCase()) { isCorrect = false; }",
+                   h, count=1)
+    if n == 61 and key == 'reading':   # passage typo
+        h = h.replace('took the form of tringles', 'took the form of triangles')
     if n == 31 and key == 'reading':   # options are TRUE / FALSE / NOT GIVEN
         h = key_literal_replace(h, [("'32': 'YES'", "'32': 'TRUE'"), ("'35': 'NO'", "'35': 'FALSE'")])
     if n == 34 and key == 'reading':   # options are YES / NO / NOT GIVEN
