@@ -54,4 +54,10 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except Exception:
+        import traceback
+        for line in traceback.format_exc().strip().splitlines()[-6:]:
+            print('::error::' + line)
+        raise
