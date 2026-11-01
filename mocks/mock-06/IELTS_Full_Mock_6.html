@@ -377,7 +377,7 @@ writing:"<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\" 
     cards.forEach(function(c){
       if (cards.some(function(o){ return o !== c && c.contains(o); })) return;
       var t = c.textContent.replace(/\s+/g, ' ').trim();
-      var m = t.match(/^Q(\d+)\s*(Correct|Incorrect)?/);
+      var m = t.match(/^Q(\d+(?:\s*[-\u2013]\s*\d+)?)\s*(Correct|Incorrect)?/);
       if (!m || seen[m[1]]) return; seen[m[1]] = 1;
       var ua = (t.match(/Your answer:\s*(.*?)\s*Correct answer:/) || [])[1] || '';
       var ca = (t.match(/Correct answer:\s*(.*)$/) || [])[1] || '';
