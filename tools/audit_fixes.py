@@ -72,9 +72,83 @@ MOCK29_READING = r"""<style>.subQuestion[onclick="goToQuestion(27)"]{display:non
 MOCK36_READING = r"""<script>if (typeof showExplanationsWithHighlighting !== 'function') { window.showExplanationsWithHighlighting = function(){}; }</script>"""
 
 
+MOCK62_READING = r"""<script>
+(function(){
+  // Questions 19-23 say "You may use any letter more than once": keep each letter in the list after it is dropped.
+  var G = 'q19-23', src = null;
+  function bankOf(it){ return it && it.closest ? it.closest('.drag-options-container') : null; }
+  function tidy(bank){
+    var seen = {};
+    Array.prototype.slice.call(bank.querySelectorAll('.drag-item')).forEach(function(x){ if (!x.hasAttribute('data-i7clone')) seen[x.dataset.value] = 1; });
+    Array.prototype.slice.call(bank.querySelectorAll('.drag-item[data-i7clone]')).forEach(function(x){ if (seen[x.dataset.value]) x.remove(); else seen[x.dataset.value] = 1; });
+  }
+  document.addEventListener('dragstart', function(e){
+    var it = e.target && e.target.closest ? e.target.closest('.drag-item') : null;
+    src = (it && it.dataset.dndGroup === G && bankOf(it)) ? it : null;
+  }, true);
+  document.addEventListener('drop', function(e){
+    var z = e.target && e.target.closest ? e.target.closest('.drop-zone') : null;
+    if (!src || !z || z.dataset.dndGroup !== G) return;
+    var it = src, bank = bankOf(it); src = null;
+    var c = it.cloneNode(true); c.setAttribute('data-i7clone', '1'); c.setAttribute('draggable', 'false'); c.classList.remove('dragging', 'selected');
+    bank.insertBefore(c, it);
+    setTimeout(function(){
+      if (it.parentNode && it.parentNode !== bank && c.parentNode === bank) {
+        var mark = document.createComment(''); it.parentNode.insertBefore(mark, it);
+        bank.replaceChild(it, c); mark.parentNode.replaceChild(c, mark);
+        it.style.cursor = ''; c.style.cursor = 'default';
+      } else if (c.parentNode === bank) { c.remove(); }
+      tidy(bank);
+    }, 0);
+  }, true);
+})();
+</script>"""
+
+
+def key_literal_replace(h, pairs):
+    """Replace 'q': 'value' pairs inside the correctAnswers object only."""
+    i = h.find('correctAnswers = {')
+    if i < 0:
+        return h
+    j = h.find('};', i)
+    seg = h[i:j]
+    for old, new in pairs:
+        seg = seg.replace(old, new)
+    return h[:i] + seg + h[j:]
+
+
 def fix_section(n, key, h):
     h = rebrand(h)
     block = ''
+    if n == 31 and key == 'reading':   # options are TRUE / FALSE / NOT GIVEN
+        h = key_literal_replace(h, [("'32': 'YES'", "'32': 'TRUE'"), ("'35': 'NO'", "'35': 'FALSE'")])
+    if n == 34 and key == 'reading':   # options are YES / NO / NOT GIVEN
+        h = key_literal_replace(h, [("'33': 'FALSE'", "'33': 'NO'"), ("'35': 'TRUE'", "'35': 'YES'"), ("'36': 'FALSE'", "'36': 'NO'")])
+    if n == 42 and key == 'listening':  # the answer box for Q7 was missing ("£ ___ for retired or unemployed members")
+        h = h.replace('£7 for retired or unemployed members',
+                      '£<input type="text" id="q7" class="answer-input" placeholder="7"> for retired or unemployed members')
+    if n == 51 and key == 'reading':   # matching headings Q14-20 were marked but never added to the score
+        a = h.find('// Handle drag-and-drop headings for Questions 14-20')
+        if a >= 0:
+            old = 'isCorrect = userAnswer === correctAnswer;\n'
+            b = h.find(old, a)
+            if b >= 0 and 'if (isCorrect) { score++; } /*i7*/' not in h[b:b + 200]:
+                h = h[:b + len(old)] + '                    if (isCorrect) { score++; } /*i7*/\n' + h[b + len(old):]
+    if n == 65 and key == 'reading':   # Q26 is its own question; the engine copied Q25's answer over it
+        h = re.sub(r'if \(answers\[25\]\) \{\s*answers\[26\] = answers\[25\];\s*\}', '/* Q26 is answered separately */', h)
+    if n == 49 and key == 'listening':  # two option lists used the same ids, so a drop could grab the other list's letter
+        seen = set()
+        def uniq(m):
+            i = m.group(1)
+            if i in seen:
+                return 'id="%s_2"' % i
+            seen.add(i)
+            return m.group(0)
+        h = outside_scripts(h, lambda p: re.sub(r'id="(opt[A-H])"', uniq, p))
+    if n == 64 and key == 'reading':   # Paragraph D (courtship display) is "Mating and breeding"; ix is not even in the list
+        h = key_literal_replace(h, [("'3': 'ix'", "'3': 'viii'")])
+    if n == 62 and key == 'reading':
+        block = MOCK62_READING
     if n == 55 and key == 'reading':
         h = re.sub(r"'28': 'v', '29': 'x', '30': 'iii', '31': 'i', '32': 'vii', '33': 'viii'",
                    "'28': 'x', '29': 'iii', '30': 'i', '31': 'vii', '32': 'viii', '33': 'ii'", h)
