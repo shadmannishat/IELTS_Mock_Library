@@ -1,0 +1,54 @@
+name: Transcribe recordings (private)
+
+# Started by hand only. Transcripts are uploaded to a private draft release ("transcripts"),
+# visible only to people with write access, and are never committed to this public repository.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  transcribe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          pip install -q faster-whisper
+      - name: Transcribe this shard
+        run: python3 tools/offline/transcribe.py ${{ matrix.shard }} 11
+      - uses: actions/upload-artifact@v4
+        with:
+          name: transcripts-${{ matrix.shard }}
+          path: transcripts/
+          retention-days: 1
+
+  publish:
+    needs: transcribe
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: transcripts-*
+          path: parts
+          merge-multiple: true
+      - name: Save as a private draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ls parts | wc -l
+          cd parts && zip -q ../transcripts.zip *.txt && cd ..
+          gh release delete transcripts --yes -R ${{ github.repository }} 2>/dev/null || true
+          gh release create transcripts transcripts.zip --draft -R ${{ github.repository }} \
+            --title "Listening transcripts - private draft" \
+            --notes "Private draft for checking answer keys. Not for students."

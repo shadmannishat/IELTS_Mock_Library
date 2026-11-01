@@ -1,3 +1,4 @@
 dist/
 mocks/*/Listening.mp3
 __pycache__/
+transcripts/
