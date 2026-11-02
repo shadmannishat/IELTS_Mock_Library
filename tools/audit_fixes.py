@@ -149,6 +149,245 @@ KEY_FIXES = {
 }
 
 
+# Round 2: every Reading key re-solved against its passage. KEY_SET replaces a key (the evidence is in the
+# comment); KEY_ADD keeps the key and also accepts other correct wordings from the passage.
+KEY_SET = {
+    (4, 'reading'): {'13': 'C',             # laser surgery: "despite the growth of such surgery", "increasingly safe and affordable"
+                     '25': 'NO'},           # Wada paralysed one side "of a healthy brain", not people with language problems
+    (8, 'reading'): {'13': ['Port Jackson', 'Sydney Cove'],   # "This second location was strange and unfamiliar"
+                     '36': ['San Andreas Fault', 'the San Andreas Fault', 'San Andreas']},  # Aegir Ridge "had never been active"
+    (13, 'reading'): {'13': ['NOT GIVEN', 'TRUE'],   # elderly people living alone kept higher stress-hormone levels
+                      '25': ['A', 'B']},             # the 5% figure is given by the CDC and by Simonsen
+    (17, 'reading'): {'7': 'FALSE'},       # social impact comes from "the educative effect of travel and the effects on employment"
+    (23, 'reading'): {'19': 'aimless'},    # 'empty' is how people feel after finding the item, not the gap's meaning
+    (47, 'reading'): {'40': 'NOT GIVEN'},  # the brewery reuses spent grain; nothing about raising production
+    (51, 'reading'): {'7': 'TRUE'},        # "difficult to establish ... inhabited by notoriously vigorous competitors"
+    (52, 'reading'): {'13': ['Port Jackson', 'Sydney Cove']},
+    (54, 'reading'): {'26': 'April'},      # "In April the body of the 'Emu in the Sky' reaches a certain angle"
+    (55, 'reading'): {'3': 'TRUE',         # "Even that has not been much use"
+                      '7': 'FALSE'},       # floods were "wiping the slate dirty ... a muddy mess"
+    (57, 'reading'): {'6': 'NO'},          # "Both wind and solar power are so successful"
+    (59, 'reading'): {'10': 'NOT GIVEN'},  # the passage only says Brunel had already built a railway
+    (62, 'reading'): {'24': ['vegetation']},
+    (63, 'reading'): {'28': 'vi', '29': 'i', '30': 'iii', '32': 'ii'},  # headings checked against the heading list values
+    # Listening: checked against transcripts of the recordings
+    (2, 'listening'): {'4': '313859'},     # "reach me at home in the evening at 313859 ... not five at the end, nine"
+    (18, 'listening'): {'2': 'Eshcol'},    # spelled "E-S-H-C-O-L"
+    # the map in mock 6 belonged to another test; it now uses the station map (as in mock 42), whose letters these are
+    (6, 'listening'): {'15': 'F', '16': 'C', '17': 'D', '18': 'E', '19': 'B', '20': 'A'},
+    (39, 'listening'): {'q18': 'code'},    # "they will tell you the code you use to enter the door"
+    (40, 'listening'): {'q13': 'E',        # USA: "their more rigid schedule of August to December"
+                        'q14': 'C'},       # Australia: "willing to commit 8 months" (mock 5 has the same key)
+    (51, 'listening'): {'q21': 'B'},       # "increased safeguards ... officially designated a nature reserve"
+    (60, 'listening'): {'q14': 'A'},
+    (14, 'listening'): {'36': ['water', 'sand']},  # "they needed water and sand"; the prompt asks for the first missing word       # "some rooms that adjoin one another with a door connecting them"
+}
+KEY_ADD = {
+    (1, 'reading'): {'10': ['Rowling']},
+    (2, 'reading'): {'14': ['chronometer', 'the marine chronometer']},
+    (3, 'reading'): {'25': ['daytime predators'], '26': ['any visible']},
+    (4, 'reading'): {'6': ['convex lens', 'convex']},
+    (7, 'reading'): {'23': ['mosaic floors'], '25': ['AD 93', '93 AD']},
+    (8, 'reading'): {'10': ['Philip'], '25': ['cow'], '33': ['tectonic plates']},
+    (9, 'reading'): {'13': ['skin irritation', 'irritation'], '35': ['bitter', 'gritty', 'bitter and gritty']},
+    (10, 'reading'): {'9': ['Domesday'], '17': ['psychological']},
+    (13, 'reading'): {'32': ['developed countries']},
+    (15, 'reading'): {'25': ['sophisticated touch-tone systems']},
+    (16, 'reading'): {'8': ['tails']},
+    (20, 'reading'): {'13': ['airbags']},
+    (23, 'reading'): {'34': ['arson investigators']},
+    (24, 'reading'): {'5': ['season']},
+    (26, 'reading'): {'24': ['sociopathic behavior']},
+    (27, 'reading'): {'33': ['bottomfish'], '35': ['pollutants']},
+    (47, 'reading'): {'26': ['freshwater']},
+    (49, 'reading'): {'2': ['gopher tortoises', 'tortoise'], '8': ['ants'], '24': ['Eurasia']},
+    (50, 'reading'): {'12': ['swallowed'], '24': ['Abraham Darby'], '26': ['Severn River', 'the Severn River', 'Severn']},
+    (51, 'reading'): {'19': ['iv'], '26': ['cost', 'costs']},
+    (52, 'reading'): {'7': ['diaries', 'his diary', 'diary'], '10': ['Philip'], '22': ['lost time']},
+    (53, 'reading'): {'11': ['the 1960s', '1960s'], '21': ['disposable income', 'more disposable incomes'],
+                      '24': ['agricultural products'], '33': ['new']},
+    (55, 'reading'): {'20': ['semantic'], '21': ['episodic', 'event']},
+    (56, 'reading'): {'6': ['especially intelligent'], '9': ['100', 'almost one hundred', 'almost 100'], '11': ['colour'],
+                      '12': ['pronunciation'], '13': ['a teenager']},
+    (57, 'reading'): {'12': ['advanced technology'], '20': ["the UN's 1967 treaty", 'UN 1967 treaty', '1967 treaty']},
+    (58, 'reading'): {'8': ['molds', 'mould', 'mold'], '13': ['20 millimeters', 'twenty millimeters'],
+                      '22': ['star stock analysts'], '27': ['cough'], '29': ['family and friends', 'friends and family'],
+                      '32': ['experience']},
+    (60, 'reading'): {'13': ['a furnace'], '25': ['2 billion words', 'two billion words']},
+    (61, 'reading'): {'25': ['host selling', 'hostselling']},
+    (62, 'reading'): {'25': ['hunting']},
+    (63, 'reading'): {'14': ['mosquito']},
+    (64, 'reading'): {'11': ['nest building'], '34': ['code makers', 'codemakers'], '35': ['public key'], '36': ['private']},
+    # Listening: answer words as spoken in the recording
+    (37, 'listening'): {'q36': ['gray']},                 # "it is the gray mangroves"
+    (45, 'listening'): {'q36': ['native language']},      # "in the native language of the majority of passengers"
+    (52, 'listening'): {'q36': ['soundproof', 'sound-proof', 'sound-proofed']},  # "Subjects were put into soundproof rooms"
+    (3, 'listening'): {'36': ['soundproof', 'sound-proof', 'sound-proofed']},
+    (13, 'listening'): {'38': ['flow stone'], '40': ['bottom-up']},
+    (11, 'listening'): {'28': ['low-fat organic yogurt', 'low-fat organic yoghurt'],
+                        '30': ['alcohol and coffee', 'alcohol, coffee', 'alcohol coffee', 'coffee and alcohol']},
+    (21, 'listening'): {'38': ['sea level', 'sea levels', 'water levels']},
+    (15, 'listening'): {'37': ['early 20s', "early 20's"]},
+    (16, 'listening'): {'29': ['profit']},
+    (19, 'listening'): {'2': ['J06337'],                 # the passport number is read as "J-zero-six..."
+                        '37': ['fifth taste']},          # "Ikeda identified a fifth taste"
+    (20, 'listening'): {'37': ['early 20s', "early 20's"]},
+    (22, 'listening'): {'32': ['grind their grain']},
+    (28, 'listening'): {'3': ['socialise']},
+    (35, 'listening'): {'q9': ['sawdicot']},              # spelled "S-A-W-D-I-C-O-T" in the recording
+    (42, 'listening'): {'q34': ['flavor'], 'q35': ['fertilizers']},
+    (56, 'listening'): {'q34': ['math department', 'maths', 'math']},
+    (65, 'reading'): {'23': ['one sixth', '1/6'], '24': ['sixteenth century'], '34': ['a panoramic camera'],
+                      '35': ['Sahara desert', 'the Sahara', 'Sahara'], '36': ['polarized light']},
+}
+
+
+def merged(old, val, add):
+    cur = old if isinstance(old, list) else [old]
+    out = list(val if isinstance(val, list) else [val]) if val is not None else list(cur)
+    for a in add or []:
+        if a.lower() not in [str(x).lower() for x in out]:
+            out.append(a)
+    return out if len(out) > 1 else out[0]
+
+
+def mindless_get(seg, q):
+    m = re.search(r"""(['"]?)%s\1\s*:\s*(\[[^\]]*\]|'(?:[^'\\]|\\.)*'|"(?:[^"\\]|\\.)*")""" % re.escape(q), seg)
+    if not m:
+        raise RuntimeError('key %s not found' % q)
+    import ast
+    return ast.literal_eval(m.group(2))
+
+
+def apply_round2(n, key, h):
+    sets, adds = KEY_SET.get((n, key), {}), KEY_ADD.get((n, key), {})
+    if not sets and not adds:
+        return h
+    qs = list(dict.fromkeys(list(sets) + list(adds)))
+    if 'const CONFIG = ' in h:                      # mocks 1-24
+        i = h.index('const CONFIG = ') + len('const CONFIG = ')
+        cfg, j = json.JSONDecoder().raw_decode(h, i)
+        for q in qs:
+            v = merged(cfg['answers'][q], sets.get(q), adds.get(q))
+            cfg['answers'][q] = v if isinstance(v, list) else [v]
+        return h[:i] + json.dumps(cfg, ensure_ascii=False) + h[j:]
+    if 'var KEY = {' in h:                           # mock 60 (paper)
+        i = h.index('var KEY = ') + len('var KEY = ')
+        k, j = json.JSONDecoder().raw_decode(h, i)
+        for q in qs:
+            v = merged(k[q], sets.get(q), adds.get(q))
+            k[q] = v if isinstance(v, list) else [v]
+        return h[:i] + json.dumps(k, ensure_ascii=False) + h[j:]
+    if 'const ANSWERS = {' in h:                     # listening in mocks 25-28
+        for q in qs:
+            m = re.search(r'(\b%s:)(\[[^\]]*\])' % q, h[h.index('const ANSWERS = {'):])
+            if not m:
+                raise RuntimeError('ANSWERS key %s not found' % q)
+            base = h.index('const ANSWERS = {')
+            import ast
+            v = merged(ast.literal_eval(m.group(2)), sets.get(q), adds.get(q))
+            v = v if isinstance(v, list) else [v]
+            h = h[:base + m.start(2)] + json.dumps(v, ensure_ascii=False) + h[base + m.end(2):]
+        return h
+    if 'const testData' in h:                        # mocks 25-28 and 65
+        for q in qs:
+            m = re.search(r'("(?:q?id)"\s*:\s*%s\s*,(?:(?!"(?:q?id)"\s*:).)*?"correctAnswer"\s*:\s*)(\[[^\]]*\]|"[^"]*")' % q, h, flags=re.S)
+            if not m:
+                raise RuntimeError('testData key %s not found' % q)
+            old = json.loads(m.group(2))
+            v = merged(old, sets.get(q), adds.get(q))
+            h = h[:m.start(2)] + json.dumps(v if isinstance(v, list) else v, ensure_ascii=False) + h[m.end(2):]
+        return h
+    i = h.find('correctAnswers = {')                 # mocks 29-66
+    seg = h[i:h.find('};', i)]
+    fixes = {q: merged(mindless_get(seg, q), sets.get(q), adds.get(q)) for q in qs}
+    if any(isinstance(v, list) for v in fixes.values()):
+        h = allow_alternatives(h)
+    return set_keys(h, fixes)
+
+
+# Passage and question text that was wrong in the source files.
+TEXT_FIXES = {
+    (1, 'reading'): [
+        ('allows for intelligence brought up in normal conditions and then mn t and creative ability',
+         'allows for intelligence and creative ability'),
+        # the source file lost the paragraph that Q35 (the 1952 flame) is about; restored here in summary form
+        ('<p>Committee in the hope of getting the chance to create the torch.',
+         '<p>The flame returned in modern times. A cauldron burned at the 1928 Amsterdam Games, though without a relay, '
+         'and the first Olympic torch relay was held for the 1936 Berlin Summer Games. The Winter Olympics did not have '
+         'a relay until 1952, and in that year the torch was lit not in Olympia, Greece, but in Norway. Since the 1964 '
+         'Innsbruck Winter Games the flame has been lit at Olympia.</p>\n<p>Today, design teams from around the world '
+         'submit their proposals to the Olympic Committee in the hope of getting the chance to create the torch.'),
+    ],
+    (22, 'reading'): [('Rightly, Davies his story', 'Rightly, Davies begins his story'),
+                      ('the belief that inner of pleasure', 'the belief that inner experiences of pleasure'),
+                      ('lad analyses', 'lab analyses')],
+    (34, 'listening'): [('adding a lot of retial outlet', 'adding a lot of retail outlets'),
+                        ('How did the students feel about the software?', 'How did the department begin its contact with Willows?'),
+                        ('How did the student fell about the software', 'How did the student feel about the software?')],
+    # the crested moa is also described as laying larger eggs, so "the biggest eggs" fitted Q28 as well as the keyed B
+    (54, 'listening'): [('data-letter="C" draggable="true">C the biggest eggs<', 'data-letter="C" draggable="true">C the longest neck<')],
+    (48, 'listening'): [('Originally, country</p>', 'Originally, country towns</p>')],
+    (6, 'listening'): [('<strong>A–G</strong>, next to Questions 15–20', '<strong>A–F</strong>, next to Questions 15–20')],
+    (42, 'listening'): [('<strong>A-G</strong>, next to questions 15-20', '<strong>A-F</strong>, next to questions 15-20'),
+                        # Q23: Jen also says the boys' maths is helpful, so option A was a second correct answer
+                        ('&nbsp;&nbsp;The boys are good at maths which is very helpful.', '&nbsp;&nbsp;The boys rely too much on her for the calculations.')],
+    (48, 'reading'): [('value="A"> easoning of Worse Choice Making', 'value="A"> Reasoning of Worse Choice Making')],
+    (63, 'reading'): [('The text has four sections. Choose the correct heading', 'The text has six sections. Choose the correct heading')],
+    (34, 'reading'): [('value=\\"C\\"> explain why he needs to do away with the simple observation',
+                       'value=\\"C\\"> explain how people understand music')],
+    (28, 'writing'): [('employment in the UK in 1998 and 2012', 'employment in the UK in 1988 and 2012')],   # the charts say 1988
+    (32, 'writing'): [('the reasons of students to study a particular in a UK university in the year 1987 and 2007',
+                       'the main reasons why students chose a particular college or university in the UK in 1987 and 2007')],
+    (33, 'writing'): [('the reasons of students to study a particular in a UK university in the year 1987 and 2007',
+                       'the main reasons why students chose a particular university in the UK in 1997 and 2007')],  # the charts say 1997
+    (34, 'writing'): [('countries,students', 'countries, students'), ('others,the government', 'others, the government')],
+    (37, 'writing'): [('in four countries in four countries', 'in four countries'),
+                      # Task 2 was the same question as Mock 36's
+                      ('Some people think parents should read or tell stories to children. Others think parents needn’t do that as children can read books or watch TV, movies by themselves.',
+                       'Some people believe that children should be given regular household chores from an early age. Others think that children’s time is better spent on schoolwork and play.')],
+    (39, 'writing'): [('Some scientist think that there are intelligent life forms on other planets and message should be sent to contact them other scientist think that it is a bad idea and would be dangerous. <br><br> Discuss both the view and give your opinion.',
+                       'Some scientists think that there are intelligent life forms on other planets and that messages should be sent to contact them. Other scientists think that this is a bad idea and could be dangerous. <br><br> Discuss both these views and give your own opinion.')],
+    (48, 'writing'): [('The percentage of 3 types of crimes: car theft, house burglary &amp; street robbery in England &amp; Wales from 1970 to 2015.',
+                       'The graph shows the percentage of three types of crime (car theft, house burglary and street robbery) in England and Wales from 1970 to 2000.'),
+                      ('<p><em><strong>Give reasons for your answer and include any relevant examples from your own knowledge or experience.</strong></em></p>\n                        </div>',
+                       '</div>')],
+    (65, 'writing'): [('Is this a positive or negative development?<br><br></strong></em></p>\n                        </div>\n                        <p></p>',
+                       'Is this a positive or negative development?</strong></em></p>\n                        </div>\n                        <p>Give reasons for your answer and include any relevant examples from your own knowledge or experience.</p>')],
+}
+
+# Task 1 pictures with errors in the source: Mock 39's legend read "1992" three times (1992, 1997, 2002);
+# Mock 64's table listed "Cetirizine" (a medicine) as a car company (Citroën).
+IMAGE_FIXES = {(39, 'writing'): 'mock39_task1.png', (64, 'writing'): 'mock64_task1.png',
+               # station map: mock 6 showed a gallery plan from another test; mock 42's copy had a site watermark
+               (6, 'listening'): 'station_map.png', (42, 'listening'): 'station_map.png'}
+
+# Hide panels that should never be shown during a test: the Part 3 "Show Explanation" button (it reveals the answers;
+# the adapter only hid the Part 2 one), explanations copied from another test (mocks 51, 55, 66), and a made-up
+# "Results 7.0 Good User" band panel in some Writing papers.
+HIDE_CSS = {
+    'reading': '<style>[id^="show-explanation-btn"],.explanation-section{display:none!important}</style>',
+    'writing': '<style>#resultsContainer{display:none!important}</style>',
+}
+
+
+def apply_text_fixes(n, key, h):
+    for old, new in TEXT_FIXES.get((n, key), []):
+        if new in h and old not in h:
+            continue
+        if old not in h:
+            raise RuntimeError('text fix not found in mock %d %s: %s' % (n, key, old[:60]))
+        h = h.replace(old, new, 1)
+    if (n, key) in IMAGE_FIXES:
+        import base64
+        p = os.path.join(ROOT, 'tools', 'assets', IMAGE_FIXES[(n, key)])
+        uri = 'data:image/png;base64,' + base64.b64encode(open(p, 'rb').read()).decode()
+        h = re.sub(r'(<img\b[^>]*\bsrc=")data:image/[a-z]+;base64,[A-Za-z0-9+/=]+', lambda m: m.group(1) + uri, h, count=1)
+    if n == 51 and key == 'reading':   # paragraphs H and I of passage 2 belong to another passage (memory and age)
+        h = re.sub(r'\s*<p><strong>H</strong>&nbsp;&nbsp;"You could say metamemory.*?mental prime\.</p>', '', h, count=1, flags=re.S)
+    return h
+
+
 def set_keys(h, fixes):
     i = h.find('correctAnswers = {')
     if i < 0:
@@ -156,20 +395,24 @@ def set_keys(h, fixes):
     j = h.find('};', i)
     seg = h[i:j]
     for q, val in fixes.items():
-        lit = _json.dumps(val, ensure_ascii=False).replace('"', "'") if isinstance(val, list) else "'%s'" % val
-        pat = r"""((['"]?)%s\2\s*:\s*)(\[[^\]]*\]|'[^']*'|"[^"]*")""" % re.escape(q)
+        lit = _json.dumps(val, ensure_ascii=False) if (isinstance(val, list) or "'" in val) else "'%s'" % val
+        pat = r"""((['"]?)%s\2\s*:\s*)(\[[^\]]*\]|'(?:[^'\\]|\\.)*'|"(?:[^"\\]|\\.)*")""" % re.escape(q)
         seg, k = re.subn(pat, lambda m: m.group(1) + lit, seg, count=1)
         if not k:
             raise RuntimeError('key %s not found' % q)
     return h[:i] + seg + h[j:]
 
 
+ALT_EQ = ("(Array.isArray(correctAnswer) ? correctAnswer.some(a => String(a).trim().toLowerCase() === "
+          "String(userAnswer).trim().toLowerCase()) : userAnswer === correctAnswer)")
+
+
 def allow_alternatives(h):
     """Let exact-match comparisons accept a list of answers (needed for keys with alternatives)."""
-    if 'correctAnswer.includes(userAnswer) : userAnswer === correctAnswer' in h:
+    h = h.replace('(Array.isArray(correctAnswer) ? correctAnswer.includes(userAnswer) : userAnswer === correctAnswer)', ALT_EQ)
+    if ALT_EQ in h:
         return h
-    h = re.sub(r'(?<![\w.(])userAnswer === correctAnswer(?![.\w])',
-               '(Array.isArray(correctAnswer) ? correctAnswer.includes(userAnswer) : userAnswer === correctAnswer)', h)
+    h = re.sub(r'(?<![\w.(])userAnswer === correctAnswer(?![.\w])', lambda m: ALT_EQ, h)
     h = h.replace('isCorrect = userAnswer === correctAnswer.toLowerCase();',
                   'isCorrect = (Array.isArray(correctAnswer) ? correctAnswer : [correctAnswer]).some(a => userAnswer === String(a).toLowerCase());')
     return h
@@ -181,6 +424,9 @@ def fix_section(n, key, h):
     if (n, key) in KEY_FIXES:
         h = allow_alternatives(h)
         h = set_keys(h, KEY_FIXES[(n, key)])
+    h = apply_round2(n, key, h)
+    h = apply_text_fixes(n, key, h)
+    hide = HIDE_CSS.get(key, '') if n >= 29 else ''
     if n == 66 and key == 'reading':   # Q33/Q34 are separate boxes: breathing and eating, either order, one per box
         h = re.sub(r"if \(i === 33\) \{\s*const answers = userAnswer\.split\('&'\)\.map\(ans => ans\.trim\(\)\);\s*isCorrect = answers\.includes\('breathing'\) && answers\.includes\('eating'\);\s*\}",
                       lambda m: "if (i === 33 || i === 34) { const other = ((document.getElementById(i === 33 ? 'q34' : 'q33') || {}).value || '').trim().toLowerCase(); isCorrect = ['breathing', 'eating'].includes(userAnswer) && userAnswer !== other; }", h)
@@ -230,9 +476,9 @@ def fix_section(n, key, h):
     if n == 36 and key == 'reading':
         # must exist before the engine's own scripts run, so put it in <head>
         h = re.sub(re.escape(MARK_START) + '.*?' + re.escape(MARK_END), '', h, flags=re.S)
-        h = h.replace('</head>', MARK_START + MOCK36_READING + MARK_END + '</head>', 1)
+        h = h.replace('</head>', MARK_START + MOCK36_READING + hide + MARK_END + '</head>', 1)
         return h
-    return add_block(h, block)
+    return add_block(h, block + hide)
 
 
 def enc(html):
