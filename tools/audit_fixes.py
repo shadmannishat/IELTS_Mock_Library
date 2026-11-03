@@ -122,8 +122,8 @@ import json as _json
 # Answer-key corrections from checking each key against its passage (and published keys where available).
 # value: a string or a list of accepted answers (first one is shown as "the" answer)
 KEY_FIXES = {
-    (31, 'reading'): {'10': ['A', 'B']},  # Lord Rayleigh and John William Strutt are the same person
-    (32, 'reading'): {'40': ['K', 'G']},  # "its battery pack restricted cargo space"
+    (31, 'reading'): {'10': 'A'},  # option B was Lord Rayleigh's own name; it is now another scientist (see REWORD)
+    (32, 'reading'): {'40': 'K'},  # "its battery pack restricted cargo space" (summary reworded)
     # mock 34's page script loads a different Reading test at runtime (Plain English Campaign ...); its original
     # key matches what students see, so it is kept as it was (an earlier change based on the hidden text is undone here)
     (34, 'reading'): {'1': 'TRUE', '2': 'NOT GIVEN', '3': 'TRUE', '4': 'NOT GIVEN', '5': 'NOT GIVEN', '6': 'FALSE',
@@ -156,12 +156,13 @@ KEY_SET = {
                      '25': 'NO'},           # Wada paralysed one side "of a healthy brain", not people with language problems
     (8, 'reading'): {'13': ['Port Jackson', 'Sydney Cove'],   # "This second location was strange and unfamiliar"
                      '36': ['San Andreas Fault', 'the San Andreas Fault', 'San Andreas']},  # Aegir Ridge "had never been active"
-    (13, 'reading'): {'13': ['NOT GIVEN', 'TRUE'],   # elderly people living alone kept higher stress-hormone levels
-                      '25': ['A', 'B']},             # the 5% figure is given by the CDC and by Simonsen
+    # mock 13: statements 13 and 25 and summary gap 32 are reworded (see REWORD) so one answer fits
+    (13, 'reading'): {'13': 'TRUE', '25': 'A', '32': 'developed countries'},
     (17, 'reading'): {'7': 'FALSE'},       # social impact comes from "the educative effect of travel and the effects on employment"
     (23, 'reading'): {'19': 'aimless'},    # 'empty' is how people feel after finding the item, not the gap's meaning
     (47, 'reading'): {'40': 'NOT GIVEN'},  # the brewery reuses spent grain; nothing about raising production
-    (51, 'reading'): {'7': 'TRUE'},        # "difficult to establish ... inhabited by notoriously vigorous competitors"
+    (51, 'reading'): {'7': 'TRUE',         # "difficult to establish ... inhabited by notoriously vigorous competitors"
+                      '19': 'iv'},         # paragraph F: "The design is for people with different culture background"
     (52, 'reading'): {'13': ['Port Jackson', 'Sydney Cove']},
     (54, 'reading'): {'26': 'April'},      # "In April the body of the 'Emu in the Sky' reaches a certain angle"
     (55, 'reading'): {'3': 'TRUE',         # "Even that has not been much use"
@@ -191,7 +192,6 @@ KEY_ADD = {
     (8, 'reading'): {'10': ['Philip'], '25': ['cow'], '33': ['tectonic plates']},
     (9, 'reading'): {'13': ['skin irritation', 'irritation'], '35': ['bitter', 'gritty', 'bitter and gritty']},
     (10, 'reading'): {'9': ['Domesday'], '17': ['psychological']},
-    (13, 'reading'): {'32': ['developed countries']},
     (15, 'reading'): {'25': ['sophisticated touch-tone systems']},
     (16, 'reading'): {'8': ['tails']},
     (20, 'reading'): {'13': ['airbags']},
@@ -202,7 +202,7 @@ KEY_ADD = {
     (47, 'reading'): {'26': ['freshwater']},
     (49, 'reading'): {'2': ['gopher tortoises', 'tortoise'], '8': ['ants'], '24': ['Eurasia']},
     (50, 'reading'): {'12': ['swallowed'], '24': ['Abraham Darby'], '26': ['Severn River', 'the Severn River', 'Severn']},
-    (51, 'reading'): {'19': ['iv'], '26': ['cost', 'costs']},
+    (51, 'reading'): {'26': ['cost', 'costs']},
     (52, 'reading'): {'7': ['diaries', 'his diary', 'diary'], '10': ['Philip'], '22': ['lost time']},
     (53, 'reading'): {'11': ['the 1960s', '1960s'], '21': ['disposable income', 'more disposable incomes'],
                       '24': ['agricultural products'], '33': ['new']},
@@ -386,6 +386,21 @@ TEXT_FIXES = {
 REWORD = {
     (6, 'reading'): [('Flood makes the river shorter than it used to be, which means faster speed and more damage to the constructions on the flood plain.',
                       'Engineering work has made the Rhine shorter than it used to be, so it flows faster and floods do more damage to buildings on the flood plain.')],
+    (31, 'reading'): [('name="q10" value="B"> John William Strutt</label>', 'name="q10" value="B"> Daniel Colladon</label>')],
+    (32, 'reading'): [('Still, the load capacity of current Prius version was limited in its ', 'Still, the battery pack of this Prius version limited its ')],
+    (13, 'reading'): [('Smoking habits are a crucial cause in some cancers.',
+                       'Researchers are certain that air pollution alone explains the rise in lung cancer.'),
+                      ('Continuing physical exercise is likely to assist digestive function.',
+                       'Cotman found that exercise made no difference to the brains of rats.'),
+                      ('Isolation may cause a higher level of stress hormones.',
+                       'Elderly people who live alone can have high levels of stress hormones even while they sleep.'),
+                      ('The time for the highest level of efficacy of the flu shot turned out to be within the weeks previous to the flu season.',
+                       "Jackson's study found that the flu shot gave its greatest benefit after the flu season had started."),
+                      ('The flu deaths account for five per cent of annual winter deaths in the age group of 65 or over.',
+                       'Flu kills approximately 36,000 people in the US every winter.'),
+                      ('These ethical dilemmas have influenced health problems in ',
+                       'These ethical dilemmas have affected healthcare in '),
+                      (' where drug companies encouraged their trials.', ' where clinical trials are a prospering industry.')],
     (28, 'reading'): [('REM sleep is felt to be the most important for the body’s rest.',
                        'People who dream more feel more rested the next day.')],
     (30, 'reading'): [('Socialization takes a long process, while compliance is the beginning of it.',
