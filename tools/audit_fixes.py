@@ -129,7 +129,7 @@ KEY_FIXES = {
     (34, 'reading'): {'1': 'TRUE', '2': 'NOT GIVEN', '3': 'TRUE', '4': 'NOT GIVEN', '5': 'NOT GIVEN', '6': 'FALSE',
                       '7': 'jargon and waffle', '8': 'Gap', '9': 'do-it-yourself', '10': 'frustration',
                       '11': 'first-time user', '12': 'legal', '13': 'courts'},
-    (35, 'reading'): {'11': 'FALSE', '23': 'I'},
+    (35, 'reading'): {'11': 'FALSE', '23': 'J'},  # paragraph J (restored) has the 'before people did' point
     (36, 'reading'): {'34': ['first luxuries', 'luxuries', 'the first luxury', 'first luxury', 'luxury']},
     (37, 'reading'): {'3': 'TRUE', '24': 'B', '25': 'A', '35': ['wastewater', 'waste water']},
     (38, 'reading'): {'20': ['centre', 'center']},
@@ -332,6 +332,31 @@ TEXT_FIXES = {
     (42, 'listening'): [('<strong>A-G</strong>, next to questions 15-20', '<strong>A-F</strong>, next to questions 15-20'),
                         # Q23: Jen also says the boys' maths is helpful, so option A was a second correct answer
                         ('&nbsp;&nbsp;The boys are good at maths which is very helpful.', '&nbsp;&nbsp;The boys rely too much on her for the calculations.')],
+    # passage 2 stopped mid-sentence in paragraph I and had lost paragraph J (Q17, Q23, Q26 depend on them);
+    # restored here in summary form from the article's content
+    (35, 'reading'): [('But Cameron was the first one in\n                </div>',
+                       'But Cameron was the first one to scrape it off, grow it and find out what it actually is." The white '
+                       'coating turned out to be a species of <em>Streptomyces</em> bacterium, the group that supplies about half '
+                       'of the antibiotics used in medicine. This species is a potent poisoner of Escovopsis, and Mr Currie found '
+                       'it on the leaf-cutters and on the lower attines alike: both carry it on a special patch of the cuticle and '
+                       'use it to keep the deadly mold in check.</p>\n'
+                       '                    <p><strong>J</strong>&nbsp;&nbsp;In other words, it seems that some ant equivalent of '
+                       'Alexander Fleming discovered antibiotics millions of years before people did. The researchers point out '
+                       'that the leaf-cutters have achieved two things that human farmers have not: they grow a single-variety '
+                       'crop on a huge scale without it being wiped out by disease, and they have relied on an antibiotic for '
+                       'millions of years without the pathogen becoming resistant to it.</p>\n                </div>')],
+    # paragraph E began mid-sentence ("Smithsonian Tropical Research Institute in Panama. Smith had...")
+    (42, 'reading'): [('<strong>E</strong>&nbsp;&nbsp;Smithsonian Tropical Research Institute in Panama. Smith had',
+                       '<strong>E</strong>&nbsp;&nbsp;The next major breakthrough came in 1990 from Alan Smith of the '
+                       'Smithsonian Tropical Research Institute in Panama. Smith had')],
+    # Q25: the "looking forward" line is Annie's (she answers the professor's question to her), not the man's
+    (35, 'listening'): [("What is the man\'s attitude after the discussion?", "How does Annie feel about the reflective journal after talking to the professor?"),
+                        ('A   He thinks it is useless.', 'A   She thinks it is pointless.'),
+                        ('B   He is looking forward to doing the assignment', 'B   She is looking forward to writing it.'),
+                        ('C   He feels uncertain about it.', 'C   She feels uncertain about it.')],
+    # Q29-30: the tutor also talks about where people live and work, which matched B and E as well as the keyed C/D
+    (7, 'listening'): [('<span>the employment strategy</span>', '<span>the tourism industry</span>'),
+                       ('<span>the suburban areas</span>', '<span>the water supply</span>')],
     (48, 'reading'): [('value="A"> easoning of Worse Choice Making', 'value="A"> Reasoning of Worse Choice Making')],
     (63, 'reading'): [('The text has four sections. Choose the correct heading', 'The text has six sections. Choose the correct heading')],
     (34, 'reading'): [('value=\\"C\\"> explain why he needs to do away with the simple observation',
@@ -339,8 +364,6 @@ TEXT_FIXES = {
     (28, 'writing'): [('employment in the UK in 1998 and 2012', 'employment in the UK in 1988 and 2012')],   # the charts say 1988
     (32, 'writing'): [('the reasons of students to study a particular in a UK university in the year 1987 and 2007',
                        'the main reasons why students chose a particular college or university in the UK in 1987 and 2007')],
-    (33, 'writing'): [('the reasons of students to study a particular in a UK university in the year 1987 and 2007',
-                       'the main reasons why students chose a particular university in the UK in 1997 and 2007')],  # the charts say 1997
     (34, 'writing'): [('countries,students', 'countries, students'), ('others,the government', 'others, the government')],
     (37, 'writing'): [('in four countries in four countries', 'in four countries'),
                       # Task 2 was the same question as Mock 36's
@@ -352,13 +375,48 @@ TEXT_FIXES = {
                        'The graph shows the percentage of three types of crime (car theft, house burglary and street robbery) in England and Wales from 1970 to 2000.'),
                       ('<p><em><strong>Give reasons for your answer and include any relevant examples from your own knowledge or experience.</strong></em></p>\n                        </div>',
                        '</div>')],
-    (65, 'writing'): [('Is this a positive or negative development?<br><br></strong></em></p>\n                        </div>\n                        <p></p>',
+    (49, 'writing'): [('text-align:center">4,410,284</td>', 'text-align:center">4,407,267</td>')],  # the age groups add up to 4,407,267
+    (65, 'writing'): [(' The graph below shows the production levels of the main kinds of fuel in the UK between 1981 and 2000.\n</strong></p>\n                        <p><strong></strong></p>',
+                       ' The graph below shows the production levels of the main kinds of fuel in the UK between 1981 and 2000.</strong></p>\n                        <p><strong>Summarise the information by selecting and reporting the main features, and make comparisons where relevant.</strong></p>'),
+                      ('Is this a positive or negative development?<br><br></strong></em></p>\n                        </div>\n                        <p></p>',
                        'Is this a positive or negative development?</strong></em></p>\n                        </div>\n                        <p>Give reasons for your answer and include any relevant examples from your own knowledge or experience.</p>')],
+}
+
+# Question statements that allowed more than one defensible answer; reworded so that only the keyed answer fits.
+REWORD = {
+    (6, 'reading'): [('Flood makes the river shorter than it used to be, which means faster speed and more damage to the constructions on the flood plain.',
+                      'Engineering work has made the Rhine shorter than it used to be, so it flows faster and floods do more damage to buildings on the flood plain.')],
+    (28, 'reading'): [('REM sleep is felt to be the most important for the body’s rest.',
+                       'People who dream more feel more rested the next day.')],
+    (30, 'reading'): [('Socialization takes a long process, while compliance is the beginning of it.',
+                       'Scientists agree on exactly how long the process of socialization takes.'),
+                      ('Noncompliant Children are simple to deal with the relationship with the people at the same age when they are growing up.',
+                       'Henry Porter says that as children grow older, they become more skilful at negotiating or giving reasons for refusing.')],
+    (48, 'reading'): [('explained children are less likely to tell something interactive to their mother than to their friends',
+                       'argued that interacting with other children is more challenging because children do not adapt to each other\'s communicative needs')],
+    (49, 'reading'): [('Increasing pay can lead to the high work motivation.', 'Money is always the most effective way to motivate employees.'),
+                      ('The two studies are done to analyze the relationship between the natural drives and the attitude of employees.',
+                       'The two studies found that the four drives had little connection with employee motivation.')],
+    (50, 'reading'): [('The Lapita could canoe in the prevailing wind.', 'The Lapita sailed eastward against the prevailing trade winds.'),
+                      ('The majority of the Lapita dwelled on Fiji.', 'The Lapita numbered many hundreds of thousands.')],
+    (51, 'reading'): [('Interrupted brome became extinct because they were kept accidentally at room temperature.',
+                       'The interrupted brome seeds stored at Cambridge died because they were kept at room temperature.'),
+                      ('9. identified interrupted brome as another species of brome.',
+                       '9. found evidence that interrupted brome developed from another weedy grass.')],
+    (57, 'reading'): [('The Central Government of China concluded the second research scheme of climate change is less than one year.',
+                       "China's highest government body recently published the conclusions of a twelve-month research session on climate change."),
+                      ('The main topic of the G8 Meeting in Japan was to discuss greenhouse gas emissions.',
+                       'The Chinese prime minister was unwilling to raise climate change at the G8 summit in Japan.')],
 }
 
 # Task 1 pictures with errors in the source: Mock 39's legend read "1992" three times (1992, 1997, 2002);
 # Mock 64's table listed "Cetirizine" (a medicine) as a car company (Citroën).
+# Charts redrawn by tools/charts/make_task1_charts.py: the source images carried site watermarks or logos (29, 30,
+# 31, 32, 34, 41, 55, 63, 65), misspellings (12: "Belguim", "pounds string"), untitled and identical pies (9), shares adding
+# up to over 100% (55) or the same data as another mock (33). Maps: watermarks removed (56, 58), "schme" fixed (56),
+# year labels added (18).
 IMAGE_FIXES = {(39, 'writing'): 'mock39_task1.png', (64, 'writing'): 'mock64_task1.png',
+               **{(n, 'writing'): 'mock%02d_task1.png' % n for n in (9, 12, 18, 29, 30, 31, 32, 33, 34, 41, 55, 56, 58, 63, 65)},
                # station map: mock 6 showed a gallery plan from another test; mock 42's copy had a site watermark
                (6, 'listening'): 'station_map.png', (42, 'listening'): 'station_map.png'}
 
@@ -383,6 +441,34 @@ def apply_text_fixes(n, key, h):
         p = os.path.join(ROOT, 'tools', 'assets', IMAGE_FIXES[(n, key)])
         uri = 'data:image/png;base64,' + base64.b64encode(open(p, 'rb').read()).decode()
         h = re.sub(r'(<img\b[^>]*\bsrc=")data:image/[a-z]+;base64,[A-Za-z0-9+/=]+', lambda m: m.group(1) + uri, h, count=1)
+        if key == 'writing':   # several source images carried alt text from another task
+            h = re.sub(r'(<img\b[^>]*?\balt=")[^"]*(")', r'\1Task 1 visual\2', h, count=1)
+    h = h.replace(".map(p => p.textContent.replace(/\\s+/g, ' ').trim())", ".map(p => { const c = p.cloneNode(true); c.querySelectorAll('br').forEach(b => b.replaceWith(' ')); return c.textContent.replace(/\\s+/g, ' ').trim(); })")
+    if key == 'writing' and 'Question: The bar chart shows the type of music bought in the USA in 2010' in h:
+        # the saved copy of the answers printed another test's questions; it now copies this paper's own prompts
+        h = h.replace('function saveWritingToFile(', "function __i7prompt(n) { const box = document.querySelector('#part-' + n + ' .instructions') || document.querySelector('#part-' + n); return box ? [...box.querySelectorAll('.task-prompt p, .task-prompt + p')].map(p => { const c = p.cloneNode(true); c.querySelectorAll('br').forEach(b => b.replaceWith(' ')); return c.textContent.replace(/\\s+/g, ' ').trim(); }).filter(Boolean).join('\\n\\n') : ''; }\n        function saveWritingToFile(", 1)
+        h = re.sub(r'Question: The bar chart shows the type of music bought in the USA in 2010, by age group\.\n\nSummari[sz]e the information by selecting and reporting the main points and make comparisons where relevant\.',
+                   lambda m: 'Question: ${__i7prompt(1)}', h)
+        h = re.sub(r'Question: Modern buildings change the character and appearance of towns and cities\..*?experience\.',
+                   lambda m: 'Question: ${__i7prompt(2)}', h, flags=re.S)
+    if n == 9 and key == 'writing':    # the three pies are now one image
+        h = re.sub(r'\s*<img src="data:image/jpeg;base64,[A-Za-z0-9+/=]+" alt="(Coffee consumers pie chart|Who gets the profit pie chart)"[^>]*/>', '', h)
+        h = re.sub(r'<p style="text-align:center;font-size:13px;color:#4b5563;margin:-4px 0 14px;">Figure [123]: (Coffee producers|Coffee consumers|Who gets the profit)</p>', '', h)
+    if n == 12 and key == 'writing':   # the chart has four countries
+        h = h.replace('five countries', 'four countries')
+    if n == 33 and key == 'writing':   # the Task 1 data repeated mock 32's; this mock now has its own task
+        new33 = 'The charts below show how students at one UK university spent their weekly budget in 1997 and 2007.'
+        for old33 in ('The charts below show the main reasons why students chose a particular university in the UK in 1997 and 2007.',
+                      'The charts below show the reasons of students to study a particular in a UK university in the year 1987 and 2007.'):
+            h = h.replace(old33, new33)
+    for old, new in REWORD.get((n, key), []):
+        if old not in h and new not in h:
+            raise RuntimeError('reword not found in mock %d %s: %s' % (n, key, old[:60]))
+        h = h.replace(old, new)
+    if n == 48 and key == 'reading':   # passage 2 printed the Harris paragraph twice (as H and again as I)
+        h = re.sub(r'\n\s*<p><strong>I</strong> A different explanation has been put forward by Harris\..*?counterfactual reasoning\.</p>', '', h, count=1, flags=re.S)
+    if n == 35 and key == 'reading':   # paragraph E was printed twice (second copy without its letter)
+        h = re.sub(r'\n\s*<p>But after three years of sifting[^<]*</p>', '', h, count=1)
     if n == 51 and key == 'reading':   # paragraphs H and I of passage 2 belong to another passage (memory and age)
         h = re.sub(r'\s*<p><strong>H</strong>&nbsp;&nbsp;"You could say metamemory.*?mental prime\.</p>', '', h, count=1, flags=re.S)
     return h
