@@ -80,7 +80,6 @@
   .mock .num span{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
   .mock .num strong{font-size:34px;font-weight:800;letter-spacing:-1px;line-height:1}
   .mock .meta{font-size:12.5px;color:var(--muted)}
-  .mock .meta .net{display:block;margin-top:3px;color:#b45309;font-weight:700}
   .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:9999px;align-self:flex-start}
   .pill.new{background:var(--bg);color:var(--ink-2)}
   .pill.done{background:var(--green-soft);color:var(--green)}
@@ -486,7 +485,7 @@
       if (filter === 'done' && !at.length) return;
       html += '<button class="mock' + (at.length ? ' done' : '') + '" data-n="' + k.n + '" type="button">' +
         '<div class="num"><span>Full Mock</span><strong>' + k.n + '</strong></div>' +
-        '<div class="meta">L ' + k.lmin + ' min · R 60 min · W 60 min' + (k.online ? '<span class="net" title="Listening audio and some Writing charts load from the internet">Needs internet</span>' : '') + '</div>' +
+        '<div class="meta">L ' + k.lmin + ' min · R 60 min · W 60 min</div>' +
         (at.length
           ? '<span class="pill done">&#10003; Completed' + (at.length > 1 ? ' ×' + at.length : '') + '</span>' +
             '<div class="bands"><div><small>Listening</small><b>' + fmtBand(last.lb) + '</b></div><div><small>Reading</small><b>' + fmtBand(last.rb) + '</b></div></div>'
